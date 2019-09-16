@@ -93,5 +93,15 @@ Markdown 脚注的格式如下: [^要注明的文本]
 
 目前支持的 HTML 元素有：``` <kbd> <b> <i> <em> <sup> <sub> <br>```
 
+十、流程图 st开始 op操作 cond条件 e结束 
+```flow
+st=>start: 开始
+op=>operation: My Operation
+cond=>condition: Yes or No?
+e=>end
+st->op->cond
+cond(yes)->e
+cond(no)->op
+```
 
 参考菜鸟教程
