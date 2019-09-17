@@ -66,6 +66,32 @@ watch 属性可以监听data和computed中的数据变化，当数据值发生�
 在绑定属性中，通过调用`$options.filters.xx()`进行过滤。  
 全局过滤器定义：`Vue.filters('name',function(){})`
 
+### 7、父子组件model属性传值
+父组件调用子组件时，`<child v-model='isCheck'></child>`
+子组件的实例中，需要新增model属性：
+```
+model:{
+  prop:'checked',  //相当于props属性
+  event:'change'  //onchange事件
+}，
+props:{
+  checked:{type:Boolean}
+}
+```
+在子模板中：
+```
+<input :checked='checked' @change="$emit('change',$event.target.checked)">
+```
+以上的语法等同于：
+```
+//父组件
+<child v-on:customerEvt="parentMethonds" :checked="checked"></child>
+//子组件
+props:{
+  checked:{type:Boolean}
+}
+<input :checked='checked' @change="$emit('customerEvt',data)">  //子组件input触发onchange后会触发到父组件的方法parentMethonds
+```
 
 # 二、使用时遇到的开发问题  [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)]
 
