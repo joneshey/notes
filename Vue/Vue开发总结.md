@@ -82,9 +82,10 @@ b. 模板使用未返回的异步数据的字段，控制台会报错`is not def
 提供一个思路：通过用单个字段不同值（1:N）来控制相邻元素，例如：`showTab == 'tab1'`的布尔值来控制绑定类名属性，`:class="{ 'isShow': showTab == 'tab1'}"`,而不是单纯的`isShow:true`,`:class=isShow`
 
 ### 3、如何在没有使用脚手架情况下使用Vue.component
-项目使用的模板是ftl，通过引入Vue.js文件来进行开发。因此，无法使用ES6提供的模块化对Vue文件进行引入import，实现组件化功能需要以下两步：
-a. 在页面主容器（根实例）外，通过<@widget name=''>嵌入子组件的模块代码
-b. 创建子组件的js文件，定义子组件对象：
+项目使用的模板是ftl，通过引入Vue.js文件来进行开发。因此，无法使用ES6提供的模块化对Vue文件进行引入import，实现组件化功能需要以下两步：  
+a. 在页面主容器（根实例）外，通过<@widget name=''>嵌入子组件的模块代码  
+b. 创建子组件的js文件，定义子组件对象：  
+
 ```javascript
    var record = {
    	template:'#id' , // 对应子模板下的template 的id
