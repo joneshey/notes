@@ -165,6 +165,28 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 })
 ```
 
+### 12、子组件的prop属性双向绑定
+当需要对一个 prop 进行“双向绑定”时，真正的双向绑定会带来维护上的问题，因为子组件可以修改父组件。  
+
+因此，可以使用 update:myPropName 的模式触发事件取而代之。`this.$emit('update:title', newTitle)`，其中title是父组件传递给子组件的参数值，而newTitle是子组件改变属性值的新值。  
+
+父组件可以监听update事件并更新一个本地的数据属性。例如：
+```
+<text-document
+  v-bind:title="doc.title"
+  v-on:update:title="doc.title = $event"
+></text-document>
+```
+为了方便起见，我们为这种模式提供一个缩写，即 .sync 修饰符:   
+`<text-document v-bind:title.sync="doc.title"></text-document>`  //doc为父组件的数据属性  
+> 注意带有 .sync 修饰符的 v-bind 不能和表达式一起使用 (例如 v-bind:title.sync=”doc.title + ‘!’” 是无效的)。
+
+当我们用一个对象同时设置多个 prop 的时候，也可以将这个 .sync 修饰符和 v-bind 配合使用:  
+`<text-document v-bind.sync="doc"></text-document>`  
+这样会把 doc 对象中的每一个属性 (如 title) 都作为一个独立的 prop 传进去，然后各自添加用于更新的 v-on 监听器。  
+> 将 v-bind.sync 用在一个字面量的对象上，例如 v-bind.sync=”{ title: doc.title }”，是无法正常工作的。
+
+
 # 二、使用时遇到的开发问题  [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)]
 
 ### 1、渲染前页面的显示问题
