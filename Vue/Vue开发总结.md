@@ -186,7 +186,15 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 这样会把 doc 对象中的每一个属性 (如 title) 都作为一个独立的 prop 传进去，然后各自添加用于更新的 v-on 监听器。  
 > 将 v-bind.sync 用在一个字面量的对象上，例如 v-bind.sync=”{ title: doc.title }”，是无法正常工作的。
 
-
+### 13、动态组件
+```
+//currentTabComponent计算属性，返回已注册的子组件名称
+ <component
+    v-bind:is="currentTabComponent"
+    class="tab"
+  ></component>
+ ```
+  
 # 二、使用时遇到的开发问题  [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)]
 
 ### 1、渲染前页面的显示问题
