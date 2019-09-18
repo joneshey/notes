@@ -120,7 +120,17 @@ b. 模板使用未返回的异步数据的字段，控制台会报错`is not def
 > 解决方法：可以使用v-if指令事先判断该数据是否为空，从而保证该数据的字段不会报错
 
 ### 2、关于控制相邻元素的类名或样式
-提供一个思路：通过用单个字段不同值（1:N）来控制相邻元素，例如：`showTab == 'tab1'`的布尔值来控制绑定类名属性，`:class="{ 'isShow': showTab == 'tab1'}"`,而不是单纯的`isShow:true`,`:class=isShow`
+提供一个思路：通过用单个字段不同值（1:N）来控制相邻元素，例如：`showTab == 'tab1'`的布尔值来控制绑定类名属性，`:class="{ 'isShow': showTab == 'tab1'}"`,而不是单纯的`isShow:true`,`:class=isShow`  
+其中，参考语法有：
+```
+:class="[isActive ? isHide : '',f-red]"   //isActive和isHide都是data属性，均会有值
+或
+:class="[{ active: isActive }]"
+
+//多重值
+//从 2.3.0 起你可以为 style 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值，例如：
+:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"
+```
 
 ### 3、如何在没有使用脚手架情况下使用Vue.component
 项目使用的模板是ftl，通过引入Vue.js文件来进行开发。因此，无法使用ES6提供的模块化对Vue文件进行引入import，实现组件化功能需要以下两步：  
