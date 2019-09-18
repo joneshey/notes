@@ -36,6 +36,7 @@ Vue生命周期，主要有：<b>创建（beforeCreated,created）、挂载（be
 * 在destroy时，单页面跳转后，父或子组件被切换时，将被进行回收内存进行销毁，此时可将在此组件监听全局的事件（如window）进行解绑，避免影响其他组件。  
 栗子：监听滚动事件，`window.onscroll()`
 
+![生命周期](https://cn.vuejs.org/images/lifecycle.png)
 ### 3、watch监听数据
 watch 属性可以监听data和computed中的数据变化，当数据值发生改变，会触发处理程序，而`$.nextTick()`可以选择放在watch下的处理程序里触发,能够保证在下一次数据更新的时候，DOM元素能够获取到该数据且渲染出来。
 
@@ -96,6 +97,16 @@ props:{
 }
 <input :checked='checked' @change="$emit('customerEvt',data)">  //子组件input触发onchange后会触发到父组件的方法parentMethonds
 ```
+
+### 8、动态参数
+从 2.6.0 开始，可以用方括号括起来的 JavaScript 表达式作为一个指令的参数：  
+* `<a v-bind:[attributeName]="url"> ... </a>` ，这里的 attributeName 会被作为一个 JavaScript 表达式进行动态求值，求得的值将会作为最终的参数来使用。例如，如果你的 Vue 实例有一个 data 属性 attributeName，其值为 "href"，那么这个绑定将等价于 v-bind:href。
+* 同样地，你可以使用动态参数为一个动态的事件名绑定处理函数：`<a v-on:[eventName]="doSomething"> ... </a>`，当 eventName 的值为 "focus" 时，`v-on:[eventName]` 将等价于 v-on:focus。
+
+### 9、methods属性和computed属性区别
+methods和computed都可以在语法模板中直接使用，如`{{methods()}}`  
+不同的是: 计算属性是基于它们的响应式依赖(data)进行缓存的，只在data发生改变时它们才会重新求值。  
+这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而methods，每当触发重新渲染时，调用方法将总会再次执行函数。
 
 # 二、使用时遇到的开发问题  [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)]
 
