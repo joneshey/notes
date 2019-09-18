@@ -62,7 +62,7 @@ watch 属性可以监听data和computed中的数据变化，当数据值发生�
 为了减轻methods方法里的处理程序，某些简单的修改数据操作，例如toggle方法，可以直接利用`@click='isActive = !isActive'`
 
 ### 5、v-for 与 v-if 官方建议不能公用在同一个元素标签
-原因是 v-for 优先级高于 v-if ,因此存在v-if还没渲染数据进行判断时，v-for就开始遍历数据渲染DOM,从而影响性能问题或者控制台报错~~is undefined~~。 
+原因是 v-for 优先级高于 v-if ,因此存在v-if还没渲染数据进行判断时，v-for就开始遍历数据渲染DOM,这意味着 v-if 将分别重复运行于每个 v-for 循环中，从而影响性能问题，或者控制台报错~~is undefined~~。 
 > 建议：将v-if放在外层容器，避免以上情况。
 
 
