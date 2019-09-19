@@ -187,6 +187,7 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 > 将 v-bind.sync 用在一个字面量的对象上，例如 v-bind.sync=”{ title: doc.title }”，是无法正常工作的。
 
 ### 13、动态组件
+通过给component标签绑定is属性，Vue会自动检测该属性值是否被注册，从而初始化渲染子组件。
 ```
 //currentTabComponent计算属性，返回已注册的子组件名称
  <component
@@ -249,3 +250,13 @@ new Vue({
 })
 ```
 全局注册组件：`Vue.components('name',{data:'',el:'#id'})`
+
+### 4、防抖动函数
+由于_.debounce()返回的是一个函数，因此可以在定义实例属性时，直接将_.debounce()赋值给属性，如：  
+```javascript
+methods:{
+   stopScroll:_.debounce(function(){
+     //函数体
+   },2200);
+}
+```
