@@ -195,7 +195,27 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
     class="tab"
   ></component>
  ```
-  
+
+### 继承父组件属性
+由于在父组件中，使用子组件可能需要一些属性值，如：
+```
+<child class='isSingle' style="font-size:19px" type='text'></child>
+//子组件，child
+<input class="notSingle" style="color:pink" type='password'/>
+```
+如果非class和style属性，则会被替换  
+`<input type='text'/>`  
+如果是class和style属性，应进行合并  
+`<input class="isSingle notSingle" style="color:pink;font-size:19px"/>`
+
+>如果你不希望组件的根元素继承特性，你可以在组件的选项中设置 inheritAttrs: false。例如：
+```javascript
+Vue.component('my-component', {
+  inheritAttrs: false,
+  // ...
+})
+```
+
 # 二、使用时遇到的开发问题  [![Build Status](https://img.shields.io/circleci/project/github/vuejs/vue-router/dev.svg)]
 
 ### 1、渲染前页面的显示问题
