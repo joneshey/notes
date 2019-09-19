@@ -189,7 +189,7 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 ### 13、动态组件
 通过给component标签绑定is属性，Vue会自动检测该属性值是否被注册，从而初始化渲染子组件。
 ```
-//currentTabComponent计算属性，返回已注册的子组件名称
+//currentTabComponent计算属性，返回已注册的子组件名称 或者 一个组件对象{template:''}
  <component
     v-bind:is="currentTabComponent"
     class="tab"
@@ -250,6 +250,9 @@ new Vue({
 })
 ```
 全局注册组件：`Vue.components('name',{data:'',el:'#id'})`
+
+> 若使用了Babel以及Webpack可以使用ES6 Export和import注入组件对象(.vue)
+而在声明子组件时，可以直接用export default一个对象即可以输出组件对象。
 
 ### 4、防抖动函数
 由于_.debounce()返回的是一个函数，因此可以在定义实例属性时，直接将_.debounce()赋值给属性，如：  
