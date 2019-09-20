@@ -20,3 +20,30 @@
 
 ### 使用图形化界面  
 `vue ui`
+
+
+### package.json配置
+* script
+定义的是npm 运行的命令  
+如：
+```json
+"scripts":{
+  "start":"cross-env NODE_ENV=devlopment webpack-dev-server --port 8000",   //node编译指令，如：node xx.js
+  //cross-env 运行跨平台设置和使用环境变量的脚本，windows不支持NODE_ENV=development的设置方式。
+  "dist":   //生成dist资源
+},
+"dependencies":{  //npm install 时下载
+  "":""  
+},
+"devDependencies":{  //npm i -D packageName包名，安装开发环境时的依赖包
+  "":""  
+}
+```
+scripts定义后，可以在build的部署目录中，新增一个dev-serve.js
+进行`app.listen(port,function(){})`进行监听(express)  
+原生请参照node.js
+
+* 
+
+### VSCode 安装离线插件
+Code --install-extension name.vsix
