@@ -28,6 +28,7 @@
 ```
 "scripts":{
   "start":"cross-env NODE_ENV=devlopment webpack-dev-server --port 8000",   //node编译指令，如：node xx.js
+  //webpack-dev-server是一个快速搭建本地环境的一个包
   //cross-env 运行跨平台设置和使用环境变量的脚本，windows不支持NODE_ENV=development的设置方式。
   "dist":   //生成dist资源
 },
@@ -41,6 +42,19 @@
   scripts定义后，可以在build的部署目录中，新增一个dev-serve.js  
   进行`app.listen(port,function(){})`进行监听(express，原生请参照node.js）
 
-
+* 简单配置端口
+webpack.config.js
+```
+module.export={
+  entry:'',
+  output:{},
+  mode:'development'
+  devServer:{
+      host:'',
+      hot:'',
+      proxy:{}
+  }
+}
+```
 ### VSCode 安装离线插件
 Code --install-extension name.vsix
