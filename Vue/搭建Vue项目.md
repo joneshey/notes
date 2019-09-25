@@ -63,8 +63,8 @@ module.export={
 * 部署代码
 1. 先用webpack进行打包，配置好package.json和build/build.js，运行npm run build  
 （当然你可以用fis）
-2. 生成对应的dist文件夹后，将文件夹扔到apache服务器上对应的目录
-3. 配置http.confa和host文件
+2. 生成对应的dist文件夹后，将文件夹扔到apache服务器（这是本地服务器，应该放在nginx）上对应的目录
+3. 配置http.conf(nginx.conf)和host文件
 4. 访问对应Ip即可查看
 
 ### VSCode 安装离线插件
