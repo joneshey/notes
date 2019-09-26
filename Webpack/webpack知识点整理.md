@@ -1,5 +1,21 @@
 # Webpack知识点
 
+初始化文件夹
+```
+mkdir webpack-demo && cd webpack-demo
+npm init -y
+npm install webpack webpack-cli --save-dev
+```
+
+配置package.json  
+npm 脚本(npm script)：
+```
+ "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "webpack"
+    },
+```
+
 配置文件：webpack.config.js  
 ```javascript
 module.exports= configObj;  
@@ -40,6 +56,7 @@ plugins: [
 const config = {
   entry: './path/to/my/entry/file.js'   //可以为文件目录路径
 };
+//入口如果为index.js,可能因为在index.js引入了多个静态资源,如import './style.css' *在head引入资源
 ```
 entry属性值：  
 * 若传入一个数组，则创建多个入口
