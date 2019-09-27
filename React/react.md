@@ -98,8 +98,8 @@ const elem = <Welcome name=''></>;  //渲染组件
 * 渲染组件过程  
 1. 调用 ReactDOM.render() 函数，并传入 <Welcome name="Sara" /> 作为参数。
 2. React 调用 Welcome 组件，并将 {name: 'Sara'} 作为 props 传入。
-3. Welcome 组件将 <h1>Hello, Sara</h1> 元素作为返回值。
-4. React DOM 将 DOM 高效地更新为 <h1>Hello, Sara</h1>。
+3. Welcome 组件将 `<h1>Hello, Sara</h1>` 元素作为返回值。
+4. React DOM 将 DOM 高效地更新为 `<h1>Hello, Sara</h1>`。
 
 * React.Component  
 ```javascript
@@ -140,7 +140,7 @@ ReactDOM.render(
 ```
 > 组件不能修改自身的props值，所有 React 组件都必须像纯函数一样保护它们的 props 不被更改。  
 
-### state 与生命周期
+### 6. state 与生命周期
 * state能实现组件自我更新。  
 State 与 props 类似，但是 state 是私有的，并且完全受控于当前组件。  
 ```JavaScript
@@ -151,7 +151,9 @@ class Clock extends React.Component {
     this.state = {date: new Date()};  //state对象的属性：date
   }
   render(){
-    return()   // 把 render() 方法中的 this.props.date 替换成 this.state.date ：
+    return(
+        <h1>{this.state.date}</h1>
+    )   // 把 render() 方法中的 this.props.date 替换成 this.state.date ：
   }
 }
 ```
@@ -178,6 +180,8 @@ this.setState(function(state, props) {
 });
 ```
 
+* 组件state是向下流动，每个组件都是真正独立的
+
 * 组件内可以定义生命周期方法：
 ```
 class Clock extends React.Component {
@@ -188,3 +192,4 @@ class Clock extends React.Component {
   componentWillUnmount(){}
 ```
 
+### 7. 事件处理
