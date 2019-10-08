@@ -69,7 +69,9 @@ module.export={
 
 ### vue项目引入文件
 index.css通过import引入less，index.js引入index.css  
-从而在该入口读取到样式文件
+从而在该入口读取到样式文件  
+以上针对html文件而言  
+“按照vue文件，可以将模板、样式以及js都写在同一个文件”
 
 ### VSCode 安装离线插件
 Code --install-extension name.vsix
