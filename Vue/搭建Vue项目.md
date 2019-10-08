@@ -67,5 +67,9 @@ module.export={
 3. 配置http.conf(nginx.conf)和host文件
 4. 访问对应Ip即可查看
 
+### vue项目引入文件
+index.css通过import引入less，index.js引入index.css  
+从而在该入口读取到样式文件
+
 ### VSCode 安装离线插件
 Code --install-extension name.vsix
