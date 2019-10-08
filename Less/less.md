@@ -2,7 +2,7 @@
 
 ### 变量
 使用@声明变量：
-```css
+```less
 @width:10px;  //还可以运算
 #header{
  width:@width;
@@ -10,7 +10,7 @@
 ```
 
 ### 运算
-```css
+```less
 @conversion-2: 2 - 3cm - 5mm; // result is -1.5cm
 background-color: #112244 + #111; // result is #223355
 ```
@@ -18,7 +18,7 @@ background-color: #112244 + #111; // result is #223355
 ### mixins混合式
 定义一个样式：`.tool{color:red}`  
 在另外一个选择器中：
-```css
+```less
 #id a{
   width:110px;
   .tool();
@@ -26,7 +26,7 @@ background-color: #112244 + #111; // result is #223355
 ```
 
 ### 嵌套子元素
-```css
+```less
 #header{
   color:red;
   .child{
@@ -38,7 +38,7 @@ background-color: #112244 + #111; // result is #223355
 }
 ```
 若如果为伪元素的话，则使用`&:after`,&为所有的父选择器，相当于获取他的字符串值
-```
+```less
 div.hh{
 .button {
   &-ok {  //div.hh .button-ok{}
@@ -48,7 +48,7 @@ div.hh{
 }
 ```
 还可以mixins：
-```css
+```less
 #header .special-div {
   color: orange;
   #header.child();  // can also be written as #header > .child
@@ -58,7 +58,7 @@ div.hh{
 
 ### Function
 * if  
-```css
+```less
 div {
     margin: if((2 > 1), 0, 3px);
 }
@@ -68,13 +68,13 @@ div {
 `@bg-light: boolean(luma(@bg) > 50%);`  
 
 * extract提取
-```
+```less
 @list: apple, pear, coconut, orange;
 value: extract(@list, 3);  //coconut
 ```
 
 ### Map
-```css
+```less
 #colors() {
   primary: blue;
   secondary: green;
@@ -87,7 +87,7 @@ value: extract(@list, 3);  //coconut
 ```
 
 ### 可插变值
-```css
+```less
 //选择器
 @my-selector: banner;
 
@@ -106,7 +106,7 @@ body {
 ```
 
 ### 属性作为变量
-```
+```less
 .widget {
   color: #efefef;
   background-color: $color;
@@ -115,7 +115,7 @@ body {
 
 ### 不输出mixins
 如果要创建一个mixin，但又不希望该mixin出现在CSS输出中，请在mixin定义后加上括号。
-```
+```less
 .my-other-mixin() {
   background: white;
 }
