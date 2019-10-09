@@ -57,17 +57,17 @@ div.hh{
 
 
 ### Function
-* if  
+* ##### if  
 ```less
 div {
     margin: if((2 > 1), 0, 3px);
 }
 ```
 
-* boolean  
+* ##### boolean  
 `@bg-light: boolean(luma(@bg) > 50%);`  
 
-* extract提取
+* ##### extract提取
 ```less
 @list: apple, pear, coconut, orange;
 value: extract(@list, 3);  //coconut
