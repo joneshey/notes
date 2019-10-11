@@ -113,6 +113,9 @@ def quickSort(arr):
       else:
         more.append(arr[i]);
     return sum(less)+ [mid] +sum(more) ; //数组合并
+    
+    //还有一种表达式
+    less = [i for i in array[1:] if i<=mid]
 ```
 讨论：为什么选取一个元素为最糟糕的算法。  
 1. 时间复杂度为O(n^2)，因为选取第一个元素比较分区时，若该数组为有序数组，则每次都需要n(n-1)的遍历   
