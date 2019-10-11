@@ -2,6 +2,22 @@
 
 * ### 二分法
 二分法的对象必须为有序的元素列表
+```python
+def binary_search(arr,item):  // item为你查找的项，返回位置
+  low = 0;
+  high = len(arr)-1;
+  
+  while low <= high:
+    mid = (low+high)/2;
+    guess = arr[mid];
+    if guess == item:
+      return mid;
+    if guess < item:  //若中位数小于该值，则证明该值范围在中位数后半部分，则最低位置为index+1
+      low = mid + 1;
+    else:  //证明在前半部分，则最低位置为中位数inde-1
+      high = mid - 1；
+  return None;
+```
 
 * ### 数组与链表
 数组：优点：随机访问，通过索引获取元素快，位置依次排序O(1)；缺点：浪费预留内存，操作元素不方便，后面元素逐个向后移动一位O(n)  
