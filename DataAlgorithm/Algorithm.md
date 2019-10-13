@@ -155,6 +155,7 @@ print(sum([1,22,12,42,1]));
 * ### 图算法--广度优先搜索
 查找路径，解决最短距离的算法，必须通过顺序查找第一个节点是否符合，不符合继续查找下一个节点  
 使用队列实现按顺序查找   
+时间复杂度:O(V顶点+E边数)  V为添加到队列时间，E为寻找遍历时间
 工作原理:  
 1. 创建一个队列，存储需要检查的元素
 2. 从队列出队一个人，检查是否符合条件
@@ -176,9 +177,28 @@ while search_queue:   //队列不为空为条件
   if person_is_target(person):
     return true;
   else: 
-    search_queue += graph['person'];  
+    search_queue += graph[person];  
     //['eric','tom']在bob后面，符合广度优先搜索
     //先检查一级元素，再二级元素
 retrun False
 ```
+但由于上述元素数组中可能包括同一个数组或元素，如：`['bob']=['eric','may']`  
+因此，避免做重复遍历寻找，在检查元素之前需要确认是否已经检查过。  
+```python
+def search(name):
+  search_queue = deque();
+  search_queue += graph[name];  
+  searched = [] ; //用于存储已经检查过的元素
+  while search_queue:
+    person = search_queue.popleft();  
+    if person not in searched:    //检查该元素是否已经检查过
+      if person_is_target(person):
+        return true;
+      else: 
+        search_queue += graph[person]; 
+        searched.append(person)
+  retrun False
+```
+
+
 
