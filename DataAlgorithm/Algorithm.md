@@ -154,8 +154,11 @@ print(sum([1,22,12,42,1]));
 
 * ### 图算法--广度优先搜索
 查找路径，解决最短距离的算法，必须通过顺序查找第一个节点是否符合，不符合继续查找下一个节点  
-使用队列实现按顺序查找   
-时间复杂度:O(V顶点+E边数)  V为添加到队列时间，E为寻找遍历时间
+按层搜索，使用队列实现按顺序查找   
+时间复杂度:O(V顶点+E边数)  V为添加到队列时间，E为寻找遍历时间  
+
+![](https://img-blog.csdn.net/20180805163135680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNjgxMjQx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)  
+
 工作原理:  
 1. 创建一个队列，存储需要检查的元素
 2. 从队列出队一个人，检查是否符合条件
@@ -169,7 +172,8 @@ graph['alice']=['eric',tom];
 graph['bob']=[];
 
 from collection import deque
-search_queue = deque();
+search_queue = deque();  
+//deque双向对列，append/apendleft,clear,count,inset(index,val),pop,remove,reverse,rotate(指定次数)
 search_queue += graph['you'];  //graph['you']是一个数组
 
 while search_queue:   //队列不为空为条件
@@ -177,7 +181,7 @@ while search_queue:   //队列不为空为条件
   if person_is_target(person):
     return true;
   else: 
-    search_queue += graph[person];  
+    search_queue += graph[person];  //如果该节点有第二层，则添加第二层的所有节点，否则检查第二个节点
     //['eric','tom']在bob后面，符合广度优先搜索
     //先检查一级元素，再二级元素
 retrun False
