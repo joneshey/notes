@@ -159,6 +159,10 @@ print(sum([1,22,12,42,1]));
 
 ![](https://img-blog.csdn.net/20180805163135680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNjgxMjQx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)  
 
+可以解决：  
+1. 从节点A出发，有前往节点B的路径吗？  
+2. 从节点A出发，前往节点B的哪条路径最短？  
+
 工作原理:  
 1. 创建一个队列，存储需要检查的元素
 2. 从队列出队一个人，检查是否符合条件
@@ -173,7 +177,7 @@ graph['bob']=[];
 
 from collection import deque
 search_queue = deque();  
-//deque双向对列，append/apendleft,clear,count,inset(index,val),pop,remove,reverse,rotate(指定次数)
+//deque双向队列，append/apendleft,clear,count,inset(index,val),pop,remove,reverse,rotate(指定次数)
 search_queue += graph['you'];  //graph['you']是一个数组
 
 while search_queue:   //队列不为空为条件
@@ -189,6 +193,7 @@ retrun False
 但由于上述元素数组中可能包括同一个数组或元素，如：`['bob']=['eric','may']`  
 因此，避免做重复遍历寻找，在检查元素之前需要确认是否已经检查过。  
 ```python
+//解决节点A出发，是否有前往节点B的路径
 def search(name):
   search_queue = deque();
   search_queue += graph[name];  
