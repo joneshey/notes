@@ -128,6 +128,8 @@ key 的特殊属性主要用在 Vue 的虚拟 DOM 算法，在新旧 nodes 对�
   <span :key="text">{{ text }}</span>
 </transition>
 ```
+> 注意，若只是把元素隐藏起来而不是重新渲染的话，可能key不起作用，因为不属于重新渲染元素。:class='fdn' v-if=''
+
 当 text 发生改变时，<span> 会随时被更新，因此会触发过渡。
 
 ### 11、对象变更检测注意事项
