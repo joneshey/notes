@@ -6,8 +6,11 @@
 解决方法：
 1. nginx以及Apache的配置
 2. 通过SERVER_NAME获取域名，不要依赖请求包的host
-3. 设置Host白名单
-4. 应用程序进行host头攻击检测
+3. 应用程序进行host头攻击检测,设置Host白名单
+Nginx，修改ngnix.conf文件，在server中指定一个server_name名单，并添加检测。
+Apache，修改httpd.conf文件，指定ServerName，并开启UseCanonicalName选项。
+Tomcat，修改server.xml文件，配置Host的name属性。
+
 ```java
 public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
 			ServletException {
