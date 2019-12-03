@@ -26,3 +26,7 @@ public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 测试过程重现：
 请求构建工具：Postman  
 在请求Headers新增参数Host,输入别于请求的域名，打开postman控制条，查看详细的请求包信息，会发现host参数与请求地址的域名不一致。
+
+### 2. 用户枚举
+之前有了解过，就是不要提示给非法用户登录的提示错误，同一显示错误提示语：用户名或者密码不正确  
+其中，关于密码剩余输入次数也需要注意
