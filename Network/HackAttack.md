@@ -9,10 +9,15 @@
 3. 设置Host白名单
 4. 应用程序进行host头攻击检测
 ```java
-String host = request.getHeader("host");
-if (requestHost != null && !ServerWhiteListUtil.isWhite(host)) {
-	response.setStatus(403);
-	return;
+public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
+			ServletException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		String host = request.getHeader("host");
+		if (requestHost != null && !ServerWhiteListUtil.isWhite(host)) {
+		response.setStatus(403);
+		return;
+		}
 }
 ```
 测试过程重现：
