@@ -8,12 +8,12 @@
 2. 通过SERVER_NAME获取域名，不要依赖请求包的host
 3. 设置Host白名单
 4. 应用程序进行host头攻击检测
-```
-    String host = request.getHeader("host");
-		if (requestHost != null && !ServerWhiteListUtil.isWhite(host)) {
-			response.setStatus(403);
-			return;
-		}
+```java
+String host = request.getHeader("host");
+if (requestHost != null && !ServerWhiteListUtil.isWhite(host)) {
+	response.setStatus(403);
+	return;
+}
 ```
 测试过程重现：
 请求构建工具：Postman  
