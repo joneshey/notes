@@ -30,3 +30,25 @@ public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 ### 2. 用户枚举
 之前有了解过，就是不要提示给非法用户登录的提示错误，同一显示错误提示语：用户名或者密码不正确  
 其中，关于密码剩余输入次数也需要注意
+
+### 3.SQL注入
+描述：将恶意sql代码注入到数据库查询语句中，多数为表单的提交。  
+  
+<b>举个栗子</b>：
+```SQL
+sql = "SELECT * FROM users WHERE name = '" + name + "' and passWord = '"+ psw +"';"
+恶意填入：
+name = "1' OR '1'='1";
+psw = "1' OR '1'='1";
+>>  sql = "SELECT * FROM users WHERE name = '1' OR '1'='1' and passWord = '1' OR '1'='1';"  //执行是为true就可以强行登陆
+```
+原理：在编写控制层时，使用请求参数去填充SQL语句（位置多数where xx = yy的条件语句），因此尽量避免写java时的Sql语句是通过外部变量进行拼接，可以使用占位符。
+```java
+//PreprareStatement#{}可以接收简单类型值或pojo属性值。如果parameterType传输单个简单类型值，#{}括号中可以是value或其它名称。
+//PreprareStatement时，即使参数里有敏感字符如 or '1=1'、数据库也会作为一个参数一个字段的属性值，而不是sql语句
+ String sql = “insert into user (name,pwd) values(?,?)”;  
+ PreparedStatement ps = conn.preparedStatement(sql);  
+ ps.setString(1, “jack”);   //占位符顺序从1开始
+ ps.setString(2, “123456”); //也可以使用setObject
+ ps.executeQuery();
+```
