@@ -37,7 +37,7 @@ public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 <b>举个栗子</b>：
 ```SQL
 sql = "SELECT * FROM users WHERE name = '" + name + "' and passWord = '"+ psw +"';"
-恶意填入：
+// SQL注入：
 name = "1' OR '1'='1";
 psw = "1' OR '1'='1";
 >>  sql = "SELECT * FROM users WHERE name = '1' OR '1'='1' and passWord = '1' OR '1'='1';"  //执行是为true就可以强行登陆
