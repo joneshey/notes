@@ -70,3 +70,5 @@ git reset HEAD 只是取消了add到暂缓区的步骤，内容并没有reset
 * `git log`   查看最近三次提交的日志
 * `git status`  显示文件状态是否被修改
 
+### cat 查看文件内容
+cat xx.txt
