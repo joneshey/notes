@@ -61,5 +61,24 @@ py.offline.plot(fig,filename='')  => py.offline.plot(fig)
 marker可以传入color opacity size showscale（是否显示右侧颜色条） sizemode(area按面积缩放,diameter按直径缩放) sizeref(大小为原来的1/2)，其中color、opacity、size都需要传入列表，且与点一一对应  
 
 4. 线形图
+如散点图类似，主要简述如何将数据对应的日期端设为x坐标轴  
+利用pandas生成事件序列作为横轴  
+date = pd.date_range(start = '',end='')  //使用日/月/年  
+data = [go.Scatter(x=date,y=[])]
 
+### 数据处理
+* 数据缺口与数据连接
+数据往往可能存在空数据，导致无法连成一条完整的线形图，因此如果数据缺失，需要对缺口进行连接  
+`Scatter(connectgaps=False/True,line=dict(dash='dash/dot/dashdot'))`  
+缺失数据会被默认设为None, connectgaps对缺失的点进行显示设置，False则显示数据缺口，True则连接缺失值左右相邻的数据点  
+
+* 数据插值
+plotly提供6种方法进行插值：shape = 'linear/spline/hv/vh/hvh/vhv'  -- 多数使用前两个  
+设置也是在Scatter下的line字段添加字典dict(shape='linear')  
+
+* 填充线形图 
+应用：显示股票一段时间的最高价与最低价
+
+
+###
 
