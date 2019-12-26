@@ -113,4 +113,15 @@ go.Figure(data=[trace_1,trace_1,...],layout=go.Layout(title=''))
 ```
 
 3. 层叠柱状图
+柱形簇图与柱形图类似，而层叠柱形图与柱形簇图又大同小异。  
+实现具体方式是在设置Layout中，传入barmode属性  
+```python
+go.Layout(
+  barmode='stack'
+)
+```
 
+
+> 具体参数供参考网址：
+> (他人)https://www.jianshu.com/p/4f4daf47cc85
+> (他人)https://blog.csdn.net/weixin_44941795/article/details/100165972
