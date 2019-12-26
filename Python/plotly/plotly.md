@@ -128,8 +128,19 @@ go.Layout(
 柱形图的多组数据显示，除了可以传入多组数据作为数据，亦可以通过样式高、宽来显示在图表上。  
 如显示最高涨幅和波动率两个指标，可以通过定义高度为最高涨幅，宽度为波动率。  
 显示规则:柱形图越高，涨幅度越高；柱形图越宽，波动率越大；红色柱形图表示涨幅上升，而绿色柱形图表示涨幅下跌。  
-
+```python
+volume = [1,2,3,4,12];  # []5
+width = [item *3/sum(volume) for item in volume] # []5
+go.Bar(
+  x=[]5,
+  y=[]5,
+  width=width,
+  marker=dict(color=[]5,opacity=0.8)  #目前需要手工为负数填充绿色
+)
+# []5表示5个元素的数组，opacity=0.8代表每个柱状透明度统一为0.8
+```
+另外将 x 的标记旋转45° ：`go.Layout(xaxis=dict(tickangle=-45))`
 
 > 具体参数供参考网址：
-> (他人)https://www.jianshu.com/p/4f4daf47cc85
+> (他人)https://www.jianshu.com/p/4f4daf47cc85  
 > (他人)https://blog.csdn.net/weixin_44941795/article/details/100165972
