@@ -31,8 +31,12 @@ pygo.Data([trace,trace0])
 * 集成图形、布局数据，使用Data、Figure命令
 * 绘制图形的输出，使用主函数plot()
 
+### 绘制方法
 总结大部分绘图的总流程，接下来归纳以下常用的绘制方法：  
+
 常用绘制方法  
+
+Scatter函数:  
 1. 散点图  
 由于在plotly没有专门区分线形图以及散点图，因此统一通过Scatter函数进行实现。  
 使用Scatter时，除了x,y变量，还需要传入mode,name参数  
@@ -80,5 +84,11 @@ plotly提供6种方法进行插值：shape = 'linear/spline/hv/vh/hvh/vhv'  -- �
 应用：显示股票一段时间的最高价与最低价
 
 
-###
+Bar函数：  
+1. 柱形图
+语法使用：`plotly.graph_objs(go).Bar(x=[],y=[]);`  
 
+此外，用例还提供一个设置layout的方法：`go.Layout( title='',xaxis=go.XAxis(range=[0.4,4.5],domain=[0,1]) )`  
+最后通过go.Figure去进行定义成一组数据  
+结合前面的用法，go.figure可传参数应有三个：data,layout,filename  
+其中，py.offline.plot也可以传参数：定义好的数据fig/(data,layout), filename
