@@ -134,8 +134,8 @@ go.Layout(
 处理数据：  
 1.将数据对应起来  
 ```python
-for ydn, yd, xd in zip(y_nw, y_s, x_saving){  #zip()将对应的对象打包成元组，以最短的长度为主，如（[1,2],[]）
-
+for ydn, yd, xd in zip(y_nw, y_s, x_saving){  #zip()将对应的对象打包成元组，以最短的长度为主，如（[1,2],[2,12,3]）=> [(1,2),(2,12)]
+   
 }
 ```
 
