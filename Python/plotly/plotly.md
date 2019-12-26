@@ -52,6 +52,7 @@ fig = dict(data=data,layout=layout)  => 也可以使用fig = pygo.Figure(data = 
 py.offline.plot(fig,filename='')  => py.offline.plot(fig)
 
 > 随机数可通过引入numpy，调用numpy.random()获取  
+> np.rint()四舍五入取整
 
 2. 组合图 
 多个数据图显示  
@@ -124,6 +125,20 @@ go.Layout(
 4. 瀑布式柱状图
 *没看懂（待看）
 
+5. 水平条形图
+言简意赅，在Bar函数设置参数orientation='h'（条形图参数）即可。亦可结合在layout使用barmode:'stack'绘制层叠条形图。
+> 若想将线形图设为水平，可以将 x 和 y 的数据在定义时互换。
+
+案例：  
+左侧条形图，右侧折线图。x轴均在左侧，且坐标相同。y轴数据不同。  
+处理数据：  
+1.将数据对应起来  
+```python
+for ydn, yd, xd in zip(y_nw, y_s, x_saving){  #zip()将对应的对象打包成元组，以最短的长度为主，如（[1,2],[]）
+
+}
+```
+
 ### 样式设置
 柱形图的多组数据显示，除了可以传入多组数据作为数据，亦可以通过样式高、宽来显示在图表上。  
 如显示最高涨幅和波动率两个指标，可以通过定义高度为最高涨幅，宽度为波动率。  
@@ -141,6 +156,16 @@ go.Bar(
 ```
 另外将 x 的标记旋转45° ：`go.Layout(xaxis=dict(tickangle=-45))`
 
-> 具体参数供参考网址：
+Layout样式参数：  
+title, yaxis/xaxis（可以为多组，yaxis1,yaxis2）,legend,margin... 参数值皆用dict映射  
+其中:  
+yaxis参数值的属性可以是：showgrid(bool,是否显示网格), showline(bool), showticklabels(bool), linecolor, linewidth, domain([0,0.43],限制坐标轴范围)  
+xaxis参数值的属性可以是：zeroline(bool,是否显示左侧轴线), side(top,bottom，轴上的标注显示位置), dtick(显示标注的数值间隔)  
+legend(图例)的参数值：x, y, font(dict(size=''))  
+margin参数值的属性可以是：l r t b 的距离大小  
+paper_bgcolor（整张画布）  
+plot_bgcolor(绘画部分)
+
+> 具体参数供参考网址：  
 > (他人)https://www.jianshu.com/p/4f4daf47cc85  
 > (他人)https://blog.csdn.net/weixin_44941795/article/details/100165972
