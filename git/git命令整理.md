@@ -22,6 +22,9 @@
 * `git merge` 获取后进行手动合并
 * `git pull （仓库名）`  获取修改后并合并到本地
 * `git push 本地分支 -u local-branch-name:remote-branch-name`  将本地分支提交到远程仓库
+* `git branch -r` 查看远程仓库的分支
+* `git clone [giturl]` 克隆远程仓库的master
+* `git checkout [-b] branchname` 切换仓库分支，加上-b是建立新分支（由于checkout会直接删掉缓存工作区，因此慎重）
 
 ### 添加文件到仓库
 * `git add file/doucment`  可以带后缀指定文件类型，将文件添加到暂缓区
