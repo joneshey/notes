@@ -4,3 +4,6 @@
 
 ### 引入Service
 需要使用@Autowire注解
+
+### 路径参数
+@PathVariable
