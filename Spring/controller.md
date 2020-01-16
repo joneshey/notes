@@ -19,3 +19,7 @@ AccountNotBoundAccessDeny
 
 事件戳：
 String.valueOf(System.currentTimeMillis)
+
+### ENCODING为常量
+xxx.getByte(ENCODING)　　
+private final String ENCODING＝'utf-8'
