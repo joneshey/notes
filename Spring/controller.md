@@ -23,3 +23,6 @@ String.valueOf(System.currentTimeMillis)
 ### ENCODING为常量
 xxx.getByte(ENCODING)　　
 private final String ENCODING＝'utf-8'
+
+### 非对称加密
+公钥通常用于加密会话密钥、验证数字签名，或加密可以用相应的私钥解密的数据。通过这种算法得到的密钥对能保证在世界范围内是独一的。使用这个密钥对的时候，如果用其中一个密钥加密一段数据，必须用另一个密钥解密。比如用公钥加密数据就必须用私钥解密，如果用私钥加密也必须用公钥解密，否则解密将不会成功。
