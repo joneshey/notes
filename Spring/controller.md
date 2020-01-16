@@ -36,3 +36,6 @@ private final String ENCODING＝'utf-8'
    SM2Util.sign()
  }
 * URIComponentsBuilder.fromHttpUrl().queryParam()
+
+使用配置文件的参数
+@value(${})
