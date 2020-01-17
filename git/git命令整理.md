@@ -80,3 +80,7 @@ cat xx.txt
 git status  查看暂缓区（stash）有没有修改的文件
 
 如果显示为untracked 证明提交到暂缓区的文件是新增的
+
+
+fetch  从remote到stash    
+rebase  从stach到本地
