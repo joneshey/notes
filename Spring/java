@@ -1,1 +1,23 @@
 javac -encoding utf-8 Output.java
+
+//不带小时，分钟
+
+public static long getTimeStamp(int len) {
+
+                //LocalTime.of(0,0)换成LocalTime.now()可获得完整的时间戳（13位毫秒)
+
+long timestamp = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0))).getTime();
+
+//timestamp.toInstant().getEpochSecond();10位长度的时间戳
+
+return len == 10 ? timestamp/1000 : timestamp;
+
+}
+
+//获取完整的秒时间戳
+
+Instant.now().getEpochSecond();//10
+
+//毫秒级时间戳
+
+System.currentTimeMillis()
