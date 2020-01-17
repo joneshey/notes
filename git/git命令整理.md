@@ -77,4 +77,6 @@ git reset HEAD 只是取消了add到暂缓区的步骤，内容并没有reset
 cat xx.txt
 
 ### 查看暂缓区 
-git status  查看暂缓区有没有修改的文件
+git status  查看暂缓区（stash）有没有修改的文件
+
+如果显示为untracked 证明提交到暂缓区的文件是新增的
