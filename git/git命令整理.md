@@ -84,3 +84,4 @@ git status  查看暂缓区（stash）有没有修改的文件
 
 fetch  从remote到stash    
 rebase  从stach到本地
+可以设置ignore.list
