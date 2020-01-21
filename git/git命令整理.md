@@ -85,3 +85,5 @@ rebase  从stach到本地
 可以设置ignore.list
 
 git checkout — file 可以丢弃工作区的修改
+
+https://www.cnblogs.com/qlqwjy/p/8378851.html
