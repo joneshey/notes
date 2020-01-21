@@ -26,32 +26,30 @@
 * `git clone [giturl]` 克隆远程仓库的master
 * `git checkout [-b] branchname` 切换仓库分支，加上-b是建立新分支（由于checkout会直接删掉缓存工作区，因此慎重）
 
-### 添加文件到仓库
+### 添加文件到仓库(实质上是将新增的文件加上追踪，因此commit和add目标都是暂缓区)
 * `git add file/doucment`  可以带后缀指定文件类型，将文件添加到暂缓区
-* `git add *`  将所有修改文件提交
-* `git commit -m [msgLog]`  将暂缓区的内容提交到当前分支（仓库），可以带日志
+* `git add *`  将所有新增文件提交到暂缓区
+* `git commit -m [msgLog]`  将工作区的修改内容提交到本地仓库，可以带日志
 > 可以多次添加文件到暂缓区，而提交会把添加的文件一并提交到仓库
 * `git commit -am `  能省去add指令直接提交
+* `git push` 提交本地仓库的文件提交到remote仓库
 
 ### 取消已缓存的内容
 * git reset HEAD hello.php取消其中一个的缓存，操作如下：  
 现在两个文件修改后，都提交到了缓存区，
 ```
-$ git status -s
+$ git status -s  //查看本地状态
  M README
  M hello.php
-$ git add .
-$ git status -s
+$ git add .   //新增文件
+$ git status -s  
 M  README
 M  hello.php
-$ git reset HEAD hello.php 
+$ git reset HEAD hello.php //将暂缓区的文件回滚到远程仓库的最新版本  
 Unstaged changes after reset:
 M    hello.php
-$ git status -s
-M  README
-M hello.php
- ```
-现在你执行 git commit，只会将 README 文件的改动提交，而 hello.php 是没有的。  
+```
+现在你执行 git commit，只会将 README 文件的改动提交到本地仓库.git，而 hello.php 是没有的。  
 git reset HEAD 只是取消了add到暂缓区的步骤，内容并没有reset
 
 ### 回滚文件
