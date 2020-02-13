@@ -142,8 +142,8 @@ layui.use('element', function(){
 });
 </script>
 ```
-layui-tab-card 卡片风格
-layui-tab-brief 简洁风格
+layui-tab-card 卡片风格  
+layui-tab-brief 简洁风格  
 > 父层容器设置属性 lay-allowClose="true", 带删除按钮的选项卡  
 
 #### ID焦点定位
@@ -206,7 +206,7 @@ lay-skin:line row nob(无边框)
 lay-size:lg sm  
 
 6. 时间线
-类结构：
+类结构：  
 layui-timeline    
   -- layui-timeline-item  
     -- layui-icon layui-timeline-axis  
@@ -466,14 +466,14 @@ done: function(page, next){
 
 8. 表单
 主要总结一下：
-表单元素的lay-filter属性，用于在表单模块进行功能性操作时，迅速找到对应的表单元素。  
-`form.render(type,filter);` 更新表单元素 
-事件监听：
-`form.on('type(filter)', function(data){});`
-属性值：
-lay-verify: required（必填项）phone（手机号）email（邮箱）url（网址）number（数字）date（日期）identity（身份证）
-            自定义=>同时支持多条规则的验证，格式：lay-verify="验证A|验证B" 如：lay-verify="required|phone|number"   
-            还可以给他设定任意的值，比如lay-verify="pass"，那么你就需要借助form.verify()方法对pass进行一个校验规则的定义。  
+表单元素的lay-filter属性，用于在表单模块进行功能 性操作时，迅速找到对应的表单元素。  
+`form.render(type,filter);` 更新表单元素   
+事件监听：   
+`form.on('type(filter)', function(data){});`  
+属性值：  
+lay-verify: required（必填项）phone（手机号）email（邮箱）url（网址）number（数字）date（日期）identity（身份证）  
+            自定义=>同时支持多条规则的验证，格式：lay-verify="验证A|验证B" 如：lay-verify="required|phone|number"     
+            还可以给他设定任意的值，比如lay-verify="pass"，那么你就需要借助form.verify()方法对pass进行一个校验规则的定义。    
 ```
 form.verify({
   username: function(value, item){ //value：表单的值、item：表单的DOM对象
