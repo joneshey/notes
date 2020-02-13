@@ -331,7 +331,7 @@ show:boolean 当外部调用时直接显示
 closeStop: '#test1' //与上面一起使用的参数：当点击事件发生所，阻止关闭事件冒泡。如果不设定，则无法弹出
 ready(date)/change/done:callback(value, date, endDate)生成的值、日期时间对象、结束的日期时间对象
 
-3. 分页
+3. 分页（仅仅是分页器，不包括内容显示）
 先通过layui获取到laypage,再进行渲染
 ```
 laypage.render({
