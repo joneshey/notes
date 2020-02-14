@@ -4,6 +4,160 @@
 2. 框架内容
 
 
+### 底层方法
+
+1. 全局配置
+方法：layui.config(options)  
+
+你可以在使用模块之前，全局化配置一些参数，尽管大部分时候它不是必须的。  
+目前支持的全局配置项如下：
+```
+layui.config({
+  dir: '/res/layui/' //layui.js 所在路径（注意，如果是 script 单独引入 layui.js，无需设定该参数。），一般情况下可以无视
+  ,version: false //一般用于更新模块缓存，默认不开启。设为 true 即让浏览器不缓存。也可以设为一个固定的值，如：201610
+  ,debug: false //用于开启调试模式，默认 false，如果设为 true，则JS模块的节点会保留在页面
+  ,base: '' //设定扩展的 layui 模块的所在目录，一般用于外部模块扩展
+});
+```
+
+2. 定义模块
+方法：layui.define([mods], callback)  
+
+通过该方法可定义一个 layui 模块。参数 mods 是可选的，用于声明该模块所依赖的模块。
+callback 即为模块加载完毕的回调函数，它返回一个 exports 参数，用于输出该模块的接口。
+
+```
+layui.define(function(exports){
+  //do something
+  
+  exports('demo', function(){
+    alert('Hello World!');
+  });
+});
+``` 
+跟 RequireJS 最大不同的地方在于接口输出，exports 是一个函数，它接受两个参数，第一个参数为模块名，第二个参数为模块接口.  
+当声明模块后，你就可以在外部使用了，demo 就会注册到 layui 对象下，即可通过 layui.demo() 去执行该模块的接口。
+
+你也可以在定义一个模块的时候，声明该模块所需的依赖，如：
+```
+layui.define(['layer', 'laypage'], function(exports){  //依赖layer,laypage
+  //do something
+  
+  exports('demo', function(){
+    alert('Hello World!');
+  });
+});
+```
+所依赖的模块，它并非只能是一个数组，你也可以直接传一个字符型的模块名，但是这样只能依赖一个模块。  
+
+3. 加载所需模块
+方法：layui.use([mods], callback)  
+
+layui 的内置模块并非默认就加载的，他必须在你执行该方法后才会加载。  
+它的参数跟上述的 define 方法完全一样。 
+```
+layui.use(['laypage', 'layedit'], function(){
+  var laypage = layui.laypage
+  ,layedit = layui.layedit;
+  
+  //do something
+});
+```
+> 另外请注意，mods 里面必须是一个合法的模块名，不能包含目录。如果需要加载目录，建议采用 extend 建立别名（详见模块规范）   
+该方法的函数其实返回了所加载的模块接口，所以你其实也可以不通过 layui 对象赋值获得接口（这一点跟Sea.js很像）:
+```
+layui.use(['laypage', 'layedit'], function(laypage, layedit){
+  laypage(); //使用分页  
+  layedit.build();//建立编辑器
+});
+```    
+
+4. 动态加载 CSS
+方法：layui.link(href)
+
+href 即为 css 路径。注意：该方法并非是你使用 layui 所必须的，它一般只是用于动态加载你的外部 CSS 文件。
+
+5. 本地存储
+本地存储是对 localStorage 和 sessionStorage 的友好封装，可更方便地管理本地数据。
+
+localStorage 持久化存储：layui.data(table, settings)，数据会永久存在，除非物理删除。  
+sessionStorage 会话性存储：layui.sessionData(table, settings)，页面关闭后即失效。（layui 2.2.5）  
+其中参数 table 为数据表名，settings是一个对象，用于设置 key、value。  
+
+下面以 layui.data 方法为例：
+```
+//【增】：向 test 表插入一个 nickname 字段，如果该表不存在，则自动建立。
+//【改】：同【增】，会覆盖已经存储的数据
+layui.data('test', {
+  key: 'nickname'
+  ,value: '贤心'
+});
+
+//【删】：删除 test 表的 nickname 字段
+layui.data('test', {
+  key: 'nickname'
+  ,remove: true
+});
+layui.data('test', null); //删除test表
+  
+//【查】：向 test 表读取全部的数据
+var localTest = layui.data('test');
+console.log(localTest.nickname); //获得“贤心”
+```
+
+6. 获取设备信息
+方法：layui.device(key)，参数key是可选的
+
+由于 layui 的一些功能进行了兼容性处理和响应式支持，因此该方法同样发挥了至关重要的作用。  
+尤其是在 layui mobile 模块中的作用可谓举足轻重。  
+
+该方法返回了丰富的设备信息：
+```
+//device即可根据不同的设备返回下述不同的信息
+{
+  os: "windows" //底层操作系统，windows、linux、mac等
+  ,ie: false //ie6-11的版本，如果不是ie浏览器，则为false
+  ,weixin: false //是否微信环境
+  ,android: false //是否安卓系统
+  ,ios: false //是否ios系统
+}
+```
+有时你的 App 可能会对 userAgent 插入一段特定的标识，譬如：  
+Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 myapp/1.8.6 Safari/537.36
+你要验证当前的 WebView 是否在你的 App 环境，即可通过上述的myapp（即为 Native 给 Webview 插入的标识，可以随意定义）来判断。  
+
+```
+//判断设备
+var device = layui.device('myapp');
+if(device.myapp){
+  alert('在我的App环境');
+}      
+```
+      
+7. 其它
+除上述介绍的方法之外，layui.js 内部还提供了许多底层引擎，他们同样是整个 layui 体系的有力支撑，在日常应用中也许会用到：
+
+方法/属性	描述  
+layui.cache	静态属性。获得一些配置及临时的缓存信息  
+layui.extend(options)	拓展一个模块别名，如：layui.extend({test: '/res/js/test'})  
+layui.each(obj, fn)	对象（Array、Object、DOM 对象等）遍历，可用于取代for语句  
+layui.getStyle(node, name)	获得一个原始 DOM 节点的 style 属性值，如：layui.getStyle(document.body, 'font-size')  
+layui.img(url, callback, error)	图片预加载  
+layui.sort(obj, key, desc)	将数组中的对象按某个成员重新对该数组排序，如：layui.sort([{a: 3},{a: 1},{a: 5}], 'a')  
+layui.router()	获得 location.hash 路由结构，一般在单页面应用中发挥作用。  
+layui.url(href)	用于将一段 URL 链接中的 pathname、search、hash 属性值进行对象化处理  
+参数： href 可选。若不传，则自动读取当前页面的 url（即：location.href）   
+示例：var url = layui.url();  
+
+注意：系 layui 2.5.6 新增  
+layui.hint()	向控制台打印一些异常信息，目前只返回了 error 方法：layui.hint().error('出错啦')  
+layui.stope(e)	阻止事件冒泡  
+layui.onevent(modName, events, callback)	增加自定义模块事件。有兴趣的同学可以阅读 layui.js 源码以及 form 模块  
+layui.event(modName, events, params)	执行自定义模块事件，搭配 onevent 使用  
+layui.factory(modName)	用于获取模块对应的 define 回调函数  
+
+
+
 ### 动画
 layui-anim-动画
 
@@ -271,11 +425,11 @@ layer.open({
   }
 });
 ```
-关闭弹层 layer.close(index)
-获取弹出的index值：var index = layer.tips();  //每一种弹层调用方式，都会返回一个index  
-layer.close(index); 
-> 如果你想关闭最新弹出的层，直接获取layer.index即可，值是由layer内部动态递增计算的
-> 关闭所有层，layer.closeAll(type)
+关闭弹层 layer.close(index)  
+获取弹出的index值：var index = layer.tips();  //每一种弹层调用方式，都会返回一个index   
+layer.close(index);   
+> 如果你想关闭最新弹出的层，直接获取layer.index即可，值是由layer内部动态递增计算的  
+> 关闭所有层，layer.closeAll(type)  
 
 layer提供了5种层类型, 可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）。  
 采用layer.open({type: 1})方式调用，则type为必填项（信息框除外）   
@@ -298,10 +452,10 @@ layer.open({
 ```
 另外，不同类型的参数会有不同的显示效果。
 若：
-type参数  
-type => 1 ：content传入html,DOM元素$('#id')最好为独立模块元素
-type => 2 : content传入网址则显示页面内容，跨域另提，如果不让滚动条出现，可以传入数组[url,'no'] 
-type => 4 : content传入[content,选择器],则在该元素附近显示提示语
+type参数   
+type => 1 ：content传入html,DOM元素$('#id')最好为独立模块元素  
+type => 2 : content传入网址则显示页面内容，跨域另提，如果不让滚动条出现，可以传入数组[url,'no']   
+type => 4 : content传入[content,选择器],则在该元素附近显示提示语  
 
 skin参数  
 ```javascript
@@ -320,16 +474,16 @@ body .demo-class .layui-layer-btn{border-top:1px solid #E9E7E7}
 ```
 
 2. 时间选择器
-通过layui获取模块后，使用laydate.render初始化配置并渲染  
-其中：elem参数为input的选择器，或elem: lay('#test')  
-type:year month date time datetime
-range:boolean
-format:yyyy-MM-dd (默认)亦可随意使用分隔符编排
-value:初始值
-min/max:最大值
-show:boolean 当外部调用时直接显示
-closeStop: '#test1' //与上面一起使用的参数：当点击事件发生所，阻止关闭事件冒泡。如果不设定，则无法弹出
-ready(date)/change/done:callback(value, date, endDate)生成的值、日期时间对象、结束的日期时间对象
+通过layui获取模块后，使用laydate.render初始化配置并渲染    
+其中：elem参数为input的选择器，或elem: lay('#test')    
+type:year month date time datetime  
+range:boolean  
+format:yyyy-MM-dd (默认)亦可随意使用分隔符编排  
+value:初始值  
+min/max:最大值  
+show:boolean 当外部调用时直接显示  
+closeStop: '#test1' //与上面一起使用的参数：当点击事件发生所，阻止关闭事件冒泡。如果不设定，则无法弹出  
+ready(date)/change/done:callback(value, date, endDate)生成的值、日期时间对象、结束的日期时间对象  
 
 3. 分页（仅仅是分页器，不包括内容显示）
 先通过layui获取到laypage,再进行渲染
@@ -418,19 +572,19 @@ carousel.on('change(test1)', function(obj){
 
 6. 流加载
 两个核心加载方法：  
-信息流：layui.flow(opts)  
+信息流：layui.flow(opts)   
 参数项：  
 elem   
-scrollElem	// 滚动条所在元素选择器，默认document。如果你不是通过窗口滚动来触发流加载，而是页面中的某一个容器的滚动条，通过该参数指定即可。  
-isAuto	// 是否自动加载。默认true。如果设为false，点会在列表底部生成一个“加载更多”的button，则只能点击它才会加载下一页数据。  
-end	//用于显示末页内容，可传入任意HTML字符。默认为：没有更多了  
+scrollElem	// 滚动条所在元素选择器，默认document。如果你不是通过窗口滚动来触发流加载，而是页面中的某一个容器的滚动条，通过该参数指定即可。    
+isAuto	// 是否自动加载。默认true。如果设为false，点会在列表底部生成一个“加载更多”的button，则只能点击它才会加载下一页数据。   
+end	//用于显示末页内容，可传入任意HTML字符。默认为：没有更多了   
 isLazyimg	//是否开启图片懒加载。默认false。如果设为true，则只会对在可视区域的图片进行按需加载。与此同时，在拼接列表字符的时候，你不能给列表中的img元素赋值src，必须要用lay-src取代，如：
  ```
 layui.each(res.data, function(index, item){
   lis.push('<li><img lay-src="'+ item.src +'"></li>');
 });   
   ```        
-mb	//与底部的临界距离，默认50。即当滚动条与底部产生该距离时，触发加载。注意：只有在isAuto为true时有效。
+mb	//与底部的临界距离，默认50。即当滚动条与底部产生该距离时，触发加载。注意：只有在isAuto为true时有效。  
 done //到达临界点触发加载的回调。信息流最重要的一个存在。携带两个参数：
 ```
 done: function(page, next){
@@ -441,7 +595,7 @@ done: function(page, next){
   next('列表HTML片段', page < res.pages); 
 }
 ```
-懒加载：layui.lazimg  //针对lay-src属性的img元素有作用
+懒加载：layui.lazimg  //针对lay-src属性的img元素有作用   
 
 7. 上传文件
   ```
