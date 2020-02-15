@@ -1,18 +1,26 @@
 webpack的模块化规范基于common.js,支持amd和cmd规范   
 
+### webpack作用：
 源代码预 处理，例如ES6,typeScript,图片的哈希值处理(版本号缓存)  
 自动打包，更新显示  
 围绕解决方案搭建环境（框架的运行架构，规避预期问题）  
 开发效率（热加载）  
 代码质量(ESLint）  
 
+
+### 网络优化:
+1. 合并资源文件，减少http请求  
+2. 压缩资源文件大小  
+3. 利用缓存机制，减少缓存请求，从浏览器中获取（hash值改变时加载新的请求、时间戳）不浪费服务器带宽  
+
 配置文件：webpack.config.js  
 
 直接执行webpack  
 ```
+const path = require('path')  //使路径编译打包后成为绝对路径,path.join(__dirname,'../')
 module.export={
   //定义入口,该入口文件是主程序js以及包括其依赖（require）的js
-  entry:'./js/app.js',
+  entry:'./js/app.js',  //path.join(__dirname,'../')
   //定义文件发布的位置，出口
   output:{
     filename:'dist/dist.js'
@@ -25,7 +33,9 @@ module.export={
       //此时出口可以定义：
       output:{
         path:'/dist/',
-        filename:'[name].js'
+        filename:'[name].js',  
+        //[name].[hash].js,该hash是打包时候发生改动的时候会更改
+        publicPath:'/public'  //静态文件引用时的路径
       }
     **/
 }
@@ -69,7 +79,14 @@ plugins:[
 
 
 
-详细：
+## 详细：
+npm init  初始化项目，生成package.json
+目录结构：
+./  
+  --build,放置配置文件，脚本等等  
+  --client,放前端文件，app.js声明应用页面的全部内容   
+npm webpack init
+
 将webpack.config.js的配置抽出公用配置，放在webpack.base.js  
 ```
 module.exports = {
@@ -88,8 +105,7 @@ const config = webpackMerge(baseConfig,{
 });
 ```
 后面的相同配置参数会覆盖前面的公用配置，没有的话则插入配置  
-npm run dev:client/server   //dev这个配置项在package.json？？运行文件中
-
+npm run dev:client/server   //dev这个配置项在package.json
 npm i serve-favicon  //处理网页图标  
 使用express();时，在use(favicon(path.join(__dirname,'')));  
 
