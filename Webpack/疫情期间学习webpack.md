@@ -1,5 +1,11 @@
 webpack的模块化规范基于common.js,支持amd和cmd规范   
 
+源代码预 处理，例如ES6,typeScript,图片的哈希值处理(版本号缓存)  
+自动打包，更新显示  
+围绕解决方案搭建环境（框架的运行架构，规避预期问题）  
+开发效率（热加载）  
+代码质量(ESLint）  
+
 配置文件：webpack.config.js  
 
 直接执行webpack  
@@ -62,3 +68,46 @@ plugins:[
 ]
 
 
+
+详细：
+将webpack.config.js的配置抽出公用配置，放在webpack.base.js  
+```
+module.exports = {
+   配置项...
+}
+```
+在webpack.config.js引入以下模块：   
+require('webpack-merge') //用来合并webpack文件,需要install 
+require('webpack.base')  //上述的js文件
+
+将配置赋给常量config:   
+```
+const config = webpackMerge(baseConfig,{
+  entry:'',
+  output:''
+});
+```
+后面的相同配置参数会覆盖前面的公用配置，没有的话则插入配置  
+npm run dev:client/server   //dev这个配置项在package.json？？运行文件中
+
+npm i serve-favicon  //处理网页图标  
+使用express();时，在use(favicon(path.join(__dirname,'')));  
+
+如何不需要每次更改都重启服务  
+npm i nodemon  脚本控制服务启动，当有改动直接重启服务器
+创建nodemon.json  
+ ```
+{
+  "restartable":'rs',//配置文件时必须
+  "ignore":[
+    ".git","node_module/**/node_modules"
+  ]//忽略某些文件的更改
+  ,"env":{
+    "NODE_ENV":"development"  
+    //对应package.json的scripts配置项的
+    //"dev:server":nodemon server/serves.js 后面跟服务器的目录
+  }
+  ,"verbose":true  //是否详细输出错误信息
+  ,"ext": //哪些文件更改需要重启 
+}
+```
