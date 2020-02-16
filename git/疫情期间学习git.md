@@ -5,11 +5,11 @@
 
 ### 合并分支
 合并分支  git merge (将两个分别修改过的分支进行合并)，在当前分支生成新的子分支
-当前是filename,要合并到master分支，则使用git merge filename
+当前是master,要合并的filenamer分支，则使用git merge filename
 （前提，该两个分支都是有共同的父分支，然后各自提交过记录)
 
 ### 合并（延伸）分支
-filename与master的各自有提交记录，将master的修改复制一份放到当前工作分支filename  git rebase master 
+filename与master的各自有提交记录，将master的修改复制一份放到当前工作分支filename  git rebase master(被复制的分支) 
 （以上都是仓库上面操作，不是工作区）  
 filename 与 master（HEAD） 为两个分支，若git rebase filename则是在filename分支上新增一个子分支并复制master的内容
 
@@ -66,6 +66,11 @@ Rebase 修改了提交树的历史
 git reset HEAD~1通过把分支记录回退几个提交记录来实现撤销改动。git reset 向上移动分支，原来指向的提交记录就跟从来没有提交过一样。    
 git revert HEAD  如从提交了c2修改记录，但不想回退记录，只是将改动的内容恢复到提交之前的版本内容，此时会在c2的提交记录下，新增一个与c1内容一样的提交记录c2^  
 (相当于提交记录没有回滚，但内容撤销了并新提交一次)
+
+git reset --soft HEAD^ 撤回提交记录，但不改变工作区的内容
+
+### 查看对比
+git diff
 
 ### 复制提交记录内容
 git cherry-pick <提交号>... 可以是多个提交号   将一些提交复制到当前所在的位置（HEAD）下面  
@@ -138,6 +143,24 @@ git push
 设置远程追踪分支的方法就是使用：git branch -u 命令，执行：  
 git branch -u o/master foo  
 或者git checkout -b foo o/master
+
+### 解决合并中发生的冲突
+** nano 修改文件，合并的时候会提示冲突，然后通过nano进行修改  
+或者vim//这个是linux系统
+修改后使用git status查看状态
+> unmerged path 未合并路径   
+
+** git add 追踪文件，将文件添加到暂缓区中，提交后才到本地仓库，另外作用就是解决好冲突时重新添加到暂缓区（标志）  
+** git branch 查看当前分支
+
+### git如何保存数据
+git add . 将该目录下的文件都新增到暂缓区并追踪该文件状态  
+
+git stash 工作区还没提交时，要切换分支，此时使用该命令可以暂存
+git stash list 查看储存的列表
+git stash apply 贮存的名字 回到该存储区的状态
+
+恢复之前的状态先切换回到原来的的工作区分支，再git stash apply name  >list中的名字
 
 ### 高级指引
 git push <remote> <place>
