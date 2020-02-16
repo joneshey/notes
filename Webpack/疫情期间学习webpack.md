@@ -52,11 +52,31 @@ webpack可以加载所有资源，都被看成一个模块。
  css（app）可以在js(app)引用（require），然后一起打包：
 ```
  module:{
-  loaders:[{
+  rules:[{
      test:/\.css$/,
      loader:'style-loader!css-loader'//显示调用，则需要执行webpack命令时加载这两个加载器
+     ,exclude:[path.join()]//不包括编译哪些文件目录的文件
   }]
   }
+```
+
+服务端渲染  
+单页面应用存在：SEO抓取不了js,加载响应过长 
+webpack.congfig.server.js  
+```
+module.exports = {
+  target:'node'  //在哪个环境执行
+  ,entry,output
+}
+```
+npm run build 跑的时候需要在package.json修改scripts属性;
+```
+"scripts":{
+  "build:client":
+  "build:server":"webpack --config build/webpack.config.server.js",
+  "clear": "rimraf dist",//删除并覆盖dist目录，需要npm i 
+  "build":"build:client && build:server"
+}
 ```
 
 图片加载器  
@@ -77,6 +97,7 @@ plugins:[
     new webpack.optimeze.UglifyJsPlugin()
 ]
 
+html-webpack-plugin(); //百度作用吧。。。   
 
 
 ## 详细：
@@ -126,4 +147,36 @@ npm i nodemon  脚本控制服务启动，当有改动直接重启服务器
   ,"verbose":true  //是否详细输出错误信息
   ,"ext": //哪些文件更改需要重启 
 }
+```
+
+常用配置  
+webpack dev server   
+Hot module replacement  热加载
+
+判断是否服务器：
+ ```
+const isDev = process.env.NODE_ENV =="development" //package.json配置时设置  
+if (isDev){
+  config.devServer = {
+    host:'',
+    port:'',
+    contentBase:'',  //webpack编译静态资源在output对应的路径
+    hot:true,  //启动module.replacement
+    overlay:{erros:true}  //错误是否网页显示
+    publicPath:'/public',  
+    //所有请求需要加该路径名才能访问静态资源文件，相当于/m 转发器 ,相当于dist目录，只是显示在浏览器中使用public,在output设置
+    historyApiFallBack:{
+        index:'./public/index.html'  //执行xxx:8080/index是在pulic目录下的index
+    }
+  }
+}
+```
+** 需要把dist目录清除再跑npm run dev，因为webpack会找到对应的目录，如果存在直接读取没有重新编译的内容
+//"clear": "rimraf dist",//删除并覆盖dist目录，需要npm i (package.json可以配置该项)
+```
+//package.json
+"script":{
+"dev:client":cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js"
+}
+//cross-env是为了适应不同操作系统，需要npm i
 ```
