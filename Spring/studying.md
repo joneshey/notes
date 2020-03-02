@@ -71,3 +71,20 @@ JSON
 配置不详细列举
 
 
+拦截器
+1. 编写拦截器类实现HandlerInterceptor接口implements
+```java
+public void testHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throw Exception{
+}
+```
+2. 将拦截器注册到Spring MvC
+注册拦截器
+//确认注入spring-mvc
+<mvc:interceptors>
+    <bean class="过滤器的包完整路径，用·引用包"
+3. 配置拦截规则（针对部分拦截）
+<mvc:interceptors>
+    <mvc:mapping path="/viewAll.form/"> //拦截结尾以viewAll和form的请求，正则表达式 
+    <bean class="过滤器的包完整路径，用·引用包"
+    
+拦截器方法    
