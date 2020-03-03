@@ -50,11 +50,14 @@ public class Person{
 //xx.controller
 //表单提交，POST
 @RequestMapping(value="",method=RequestMethod.POST)
-public xx(@RequestParam Person person){}  //表单的name元素于模型一致
+public String xx(@RequestParam Person person){}  //表单的name元素于模型一致
 ```
+return值：  
 重定向"redirect:xxx"(url)  
 转发"forward:xxx"  
 亦可以通过@ModelAttribute Course course  
+
+> ModelAndView 创建实例后，通过mv.setViewName(".jsp")指定返回页面，通过mv.addObject()返回字段。  
 
 @RequestMapping()，其中配置项有value,method请求方法(RequestMethod.GET),param请求参数限制  
 方法类型声明 匹配 return "返回对应字段"  
@@ -77,10 +80,16 @@ SpringMVC中的Interceptor拦截器是链式的，可以同时存在多个Interc
 1. 编写拦截器类实现HandlerInterceptor接口implements  
 ```java
 public Class TestInterceptor implements HandlerInterceptor{
-    public void testHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throw Exception{
+    public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3) throw Exception{
+        //Object arg2是被拦截的请求的目标对象
+        // ModelAndView arg3参数改变显示的视图或者修改发往视图的方法
+    }
+    public Boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throw Exception{
+        //Object arg2是被拦截的请求的目标对象
     }
 }
 ```
+
 2. 将拦截器注册到Spring MvC  
 注册拦截器  
 //确认注入spring-mvc  
@@ -98,9 +107,17 @@ Interceptor链式结构也是可以进行中断,这种中断方式是令preHandl
 
 2. postHandle，是进行处理器拦截用的，它的执行时间是在处理器进行处理之后，也就是在Controller的方法调用之后执行。
 但是它会在DispatcherServlet进行视图的渲染之前执行，也就是说在这个方法中你可以对ModelAndView进行操作。  
-先声明的Interceptor拦截器该方法反而会后调用（？？？？）  
+操作详解：  
+对应的controller返回了一个ModelAndView对象，在拦截器里通过 ModelAndView arg3参数进行修改（addObject新增或者覆盖）
+> 先声明的Interceptor拦截器该方法反而会后调用
+
 
 3. afterCompletion 该方法将在整个请求完成之后，也就是DispatcherServlet渲染了视图执行。  
 这个方法的主要作用是用于清理资源的  
 
 > 2,3需要preHandle返回true才会执行。
+
+多个拦截器应用  
+执行顺序: 例如过闸口，来回算一个周期，先回来的先执行。
+
+
