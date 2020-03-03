@@ -120,4 +120,24 @@ Interceptor链式结构也是可以进行中断,这种中断方式是令preHandl
 多个拦截器应用  
 执行顺序: 例如过闸口，来回算一个周期，先回来的先执行。
 
+其他实现方式  
+继承：implements WebRequestInterceptor  
+将webRequest arg0 代替所有HttpServletRequest和Response参数  
+另外使用该参数时，preHandle没有返回值，只是一个void空方法，因此不能终止请求  
 
+使用场景：  
+一、 处理请求的共同问题
+1. 乱码
+2. 权限检验
+```java
+public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exceptoin{
+    arg0.setCharacterEncoding("utf-8");
+    if(arg0.getSession().getAttribute("user")==null){
+    
+    }
+}
+```
+
+过滤器与拦截器的区别
+拦截器只过滤请求
+过滤器依赖Servlet容器，基于回调函数，过滤范围大
