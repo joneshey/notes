@@ -9,10 +9,10 @@ URLtempalte(@RequestParam and @PathVarible)
 Controller——现代方式
 通过注解SpringMVC可以识别Controller，并且将请求映射到正确的方法。
 
-【步骤1】：通知SpringMVC的DispatcherServlet这是一个Controller，所以在类上添加@Controller，这样它就会被DispatcherServlet上下文环境管理，并且完成它的依赖注入。
-【步骤2】：指明该Controller负责处理哪一个URL,通过添加@RequestMapping("/courses"),它处理Controller负责处理根URL，也就是courses下的路径都会被它拦截到。
-【步骤3】：指明映射到哪一个方法，所以在相应方法上添加注解@RequestMapping(value="/view"，method=RequestMethod.GET),同时可以限制从get方法过来的请求。
-【步骤4】处理前端传过来的参数，第一种方式：也就是get请求带了一个参数courseId=123，它需要被方法所识别，这里在方法的参数上绑定annotation，属性就是前端传过来的key（courseId)的名，通过在方法参数前使用@RequestParam（"courseId"）,这里可以通过日志查看绑定数据的行为（log.debug("In viewCourse,courseId={}",courseId)
+【步骤1】：通知SpringMVC的DispatcherServlet这是一个Controller，所以在类上添加@Controller，这样它就会被DispatcherServlet上下文环境管理，并且完成它的依赖注入。  
+【步骤2】：指明该Controller负责处理哪一个URL,通过添加@RequestMapping("/courses"),它处理Controller负责处理根URL，也就是courses下的路径都会被它拦截到。  
+【步骤3】：指明映射到哪一个方法，所以在相应方法上添加注解@RequestMapping(value="/view"，method=RequestMethod.GET),同时可以限制从get方法过来的请求。  
+【步骤4】处理前端传过来的参数，第一种方式：也就是get请求带了一个参数courseId=123，它需要被方法所识别，这里在方法的参数上绑定annotation，属性就是前端传过来的key（courseId)的名，通过在方法参数前使用@RequestParam（"courseId"）,这里可以通过日志查看绑定数据的行为（log.debug("In viewCourse,courseId={}",courseId)  
 
 [https://img1.sycdn.imooc.com/5d0cd0840001ea2f12110240.jpg]
 解决不能再JSP页面引入JSTL的原因？
@@ -21,25 +21,25 @@ Controller——现代方式
     <groupId>javax.servlet</groupId>
     <artifactId>jstl</artifactId>
     <version>1.2</version>
-</dependency>
+</dependency>  
 第二种方式:绑定路径参数，这里使用@PathVariable("course"),要在URL路径中显示声明这个路径，也就是在@RequestMapping注解的value属性中，在路径后使用/{courseId}花括号括起来表示一个路径变量。
 例如访问路径：http://localhost:8080/view2/courseId=123
 
 
 restful风格传参：
-使用@PathVariable（“courseId”）进行绑定，同样需要在RequestMapping的value属性中进行声明，value=“/view2/{courseId}”
-使用@RequestParam（“courseId”）进行绑定，当需要指定处理的请求方式时，加上method属性值
-
+使用@PathVariable（“courseId”）进行绑定，同样需要在RequestMapping的value属性中进行声明，value=“/view2/{courseId}”  
+使用@RequestParam（“courseId”）进行绑定，当需要指定处理的请求方式时，加上method属性值  
+ 
 传统方式传参
-public xx(httpServletRequest request)
-通过获取request.getParameter("");
-注意要转换值，因为获取的是字符串
+public xx(httpServletRequest request)  
+通过获取request.getParameter("");  
+注意要转换值，因为获取的是字符串  
 
 
 Binding
-请求参数名匹配填入定义模型
-如请求参数为id,name
-则定义的模型是：
+请求参数名匹配填入定义模型  
+如请求参数为id,name  
+则定义的模型是：  
 ```java
 //Person.class
 public class Person{
@@ -52,39 +52,55 @@ public class Person{
 @RequestMapping(value="",method=RequestMethod.POST)
 public xx(@RequestParam Person person){}  //表单的name元素于模型一致
 ```
-重定向"redirect:xxx"(url)
-转发"forward:xxx"
-亦可以通过@ModelAttribute Course course
+重定向"redirect:xxx"(url)  
+转发"forward:xxx"  
+亦可以通过@ModelAttribute Course course  
 
-@RequestMapping()，其中配置项有value,method请求方法(RequestMethod.GET),param请求参数限制
-方法类型声明 匹配 return "返回对应字段"
+@RequestMapping()，其中配置项有value,method请求方法(RequestMethod.GET),param请求参数限制  
+方法类型声明 匹配 return "返回对应字段"  
 
 
-文件上传
-表单属性 action = '' enctype='multipart/form-data'
-表单元素属性 type="file" name="file"
+文件上传  
+表单属性 action = '' enctype='multipart/form-data'  
+表单元素属性 type="file" name="file"  
 
-controller通过类参数接受:MultipartFile file(内置类)
+controller通过类参数接受:MultipartFile file(内置类)  
 
-JSON
-@ResponseBody返回JSON格式
-配置不详细列举
+JSON  
+@ResponseBody返回JSON格式  
+配置不详细列举  
 
 
 拦截器
-1. 编写拦截器类实现HandlerInterceptor接口implements
+SpringMVC中的Interceptor拦截器是链式的，可以同时存在多个Interceptor，然后SpringMVC会根据声明的前后顺序一个接一个的执行，而且所有的Interceptor中的preHandle方法都会在Controller方法调用之前调用。  
+
+1. 编写拦截器类实现HandlerInterceptor接口implements  
 ```java
-public void testHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throw Exception{
+public Class TestInterceptor implements HandlerInterceptor{
+    public void testHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throw Exception{
+    }
 }
 ```
-2. 将拦截器注册到Spring MvC
-注册拦截器
-//确认注入spring-mvc
+2. 将拦截器注册到Spring MvC  
+注册拦截器  
+//确认注入spring-mvc  
+<mvc:interceptors>  
+    <bean class="过滤器的包完整路径，用·引用包"  //.TestInterceptor
+3. 配置拦截规则（针对部分拦截）  
 <mvc:interceptors>
-    <bean class="过滤器的包完整路径，用·引用包"
-3. 配置拦截规则（针对部分拦截）
-<mvc:interceptors>
-    <mvc:mapping path="/viewAll.form/"> //拦截结尾以viewAll和form的请求，正则表达式 
-    <bean class="过滤器的包完整路径，用·引用包"
+    <mvc:mapping path="/viewAll.form/"> //拦截结尾以viewAll和form的请求，正则表达式   
+    <bean class="过滤器的包完整路径，用·引用包"  
     
-拦截器方法    
+拦截器方法（继承HandlerInterceptorAdapter类）    
+1. preHandle,该方法将在Controller处理之前进行调用。  
+支持重写（@override）     
+Interceptor链式结构也是可以进行中断,这种中断方式是令preHandle的返回值为false，当preHandle的返回值为false的时候整个请求就结束了。
+
+2. postHandle，是进行处理器拦截用的，它的执行时间是在处理器进行处理之后，也就是在Controller的方法调用之后执行。
+但是它会在DispatcherServlet进行视图的渲染之前执行，也就是说在这个方法中你可以对ModelAndView进行操作。  
+先声明的Interceptor拦截器该方法反而会后调用（？？？？）  
+
+3. afterCompletion 该方法将在整个请求完成之后，也就是DispatcherServlet渲染了视图执行。  
+这个方法的主要作用是用于清理资源的  
+
+> 2,3需要preHandle返回true才会执行。
