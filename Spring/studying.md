@@ -136,8 +136,14 @@ public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Obje
     
     }
 }
+
 ```
 
 过滤器与拦截器的区别
 拦截器只过滤请求
 过滤器依赖Servlet容器，基于回调函数，过滤范围大
+
+
+数据绑定入门：  
+入参
+String[] name //name=lucy&name=Tom
