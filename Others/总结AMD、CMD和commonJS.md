@@ -37,6 +37,9 @@ AMD在加载模块完成后就会执行改模块，所有模块都加载执行�
 
 这也是很多人说AMD用户体验好，因为没有延迟，依赖模块提前执行了，CMD性能好，因为只有用户需要的时候才执行的原因
 
-————————————————
-版权声明：本文为CSDN博主「Miss_GL」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/miss_gl/article/details/81902871
+### 使用构建工具构建js
+1. mod.js引入,且顺序应该在所构建的js前面（加载顺序）
+2. 如果是lib类的js,要考虑是否需要构建，因为构建后会被define保包围，导致全局变量无法获取
+3. define主要有依赖包名，require和export，因此构建后的js想要调用其api需要使用require('xx.js').init();
+4. mod.js是一个构建工具，仅将js的方法暴露出来，因此尽管需要require，也应在使用require之前引入对应api
+
