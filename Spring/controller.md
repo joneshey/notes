@@ -39,3 +39,12 @@ private final String ENCODING＝'utf-8'
 
 使用配置文件的参数
 @value(${})
+
+
+@RequestMapping和@GetMapping区别  
+Spring4.3  
+@RequestMapping可以指定GET、POST请求方式  
+@GetMapping等价于@RequestMapping的GET请求方式  
+
+@RequestMapping(value = "hello", method= RequestMethod.GET )  
+@GetMapping("hello")  
