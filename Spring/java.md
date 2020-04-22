@@ -34,4 +34,4 @@ System.currentTimeMillis()
 
 后台转换LocalDate为字符串：LocalDate.toDateString  Command层
  
-constants.FALSE.equal()  判断
+.equal()  判断
