@@ -1,3 +1,8 @@
+当IDEA无法进行运行java文件：  
+File-Project Structure-Modules中把你代码所在文件夹选为Sources然后确定。  
+RUN就回来了  
+
+
 javac -encoding utf-8 Output.java
 
 1、时间戳（毫秒）
