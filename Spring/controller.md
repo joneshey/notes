@@ -48,3 +48,10 @@ Spring4.3
 
 @RequestMapping(value = "hello", method= RequestMethod.GET )  
 @GetMapping("hello")  
+
+
+get请求如果是传入类对象中含有类的参数，则需要用@RequestBody接收；
+如果需要传入数组可以使用arr[]接受或者创建一个类接收List<String> arr
+ 
+原因：get请求方式传参时，需要传递数组参数，http://localhost:8080/test?strings[]=aaa&strings[]=bbb
+解决：修改传递数组参数的方法，http://localhost:8080/test?strings=aaa&strings=bbb
