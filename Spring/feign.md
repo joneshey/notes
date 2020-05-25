@@ -7,7 +7,7 @@
 ```
 @Configuration
 //覆写apply方法
-FeignInspector implement xxx{  //稍后补充
+FeignInspector implements RequestInspector{  //稍后补充
     public void apply(RequestTemplate temp){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getAttribute;
         HttpServletRequest req = attr.getRequest(); //这里是http的请求
