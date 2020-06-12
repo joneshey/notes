@@ -27,3 +27,5 @@ FeignInspector implements RequestInspector{  //稍后补充
 6. post请求尽量用@RequestBody  get使用@RequestParam
 
 7. restful处理，将配置spring.mvc.hiddenmethod.filter.enable:true
+
+8. 由于底层传参时候对参数进行有转义，因此为了与后台保持一致的加密方式要使用URLDecoder.decode()后的参数进行加钱
