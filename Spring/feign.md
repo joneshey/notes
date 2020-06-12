@@ -22,4 +22,8 @@ FeignInspector implements RequestInspector{  //稍后补充
 }
 //PS:URLEncoder.encode(name,Charset.forName("UTF-8").name)
 ```
-5. Get请求多数需要@RequestParam("name")  @PathVarible("name")
+5. Get请求多数需要@RequestParam("name")  @PathVarible("name")  
+
+6. post请求尽量用@RequestBody  get使用@RequestParam
+
+7. restful处理，将配置spring.mvc.hiddenmethod.filter.enable:true
