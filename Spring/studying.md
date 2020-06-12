@@ -147,3 +147,6 @@ public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Obje
 数据绑定入门：  
 入参
 String[] name //name=lucy&name=Tom
+
+
+-Dfile.encoding=UTF-8  设置控制台不为乱码
