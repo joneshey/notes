@@ -150,3 +150,17 @@ String[] name //name=lucy&name=Tom
 
 
 -Dfile.encoding=UTF-8  设置控制台不为乱码
+
+String.equals();  //调用方必须为字符串且不为null  
+如果为null,则会报空指针异常，例如: 
+```java
+class Person{
+   private String name = "aa";
+   private String age;
+}
+Person person = new Person();
+String age = person.getAge();
+String year = "19";
+age.equals(year); //由于age为null,因此报异常
+//正确应该是： year.equals(age)  因为year已确认不为null
+```
