@@ -164,3 +164,16 @@ String year = "19";
 age.equals(year); //由于age为null,因此报异常
 //正确应该是： year.equals(age)  因为year已确认不为null
 ```
+
+
+导入/导出Excel文件：
+1. HSSFWorkBook => .xls  
+2. XSSFWorkBook => .xlsx  
+不同版本不同的工作本类型  
+HSSFCell HSSFSheet HSSFRow  
+
+通过httpServletResponse去获取getOutputStream()  
+setHeader（"content-disposition","attachment;filname=xx.xlsx" ）以及contentType   
+然后通过out.write()写入数据，且要关闭workbook和out  
+注意导出文件的文件名如果中文乱码需要使用base64转义在前端去转义回来
+
