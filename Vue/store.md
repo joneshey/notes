@@ -47,25 +47,30 @@ let module = {
     }
   }, 
   actions:{
-    setData({commit},data){
+    setData({commit},data){  //data:{key:name}
       commit("setData",data)
     }
   }.
   getters
+}
+eport default{
+  modules:{
+    moduleName
+  }
 }
 ```
 3. 组件调用
 在methods调用：
 ```
  methods:{
-  ...mapActions("component",{
+  ...mapActions("moduleName",{
     setData:'setData'
   }),
   test(){
     this.setData({
-      key:"moduleName",
+      key:"component",
       sub:{
-        
+        keyName:data
       }
     })
   }
