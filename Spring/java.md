@@ -35,3 +35,8 @@ System.currentTimeMillis()
 后台转换LocalDate为字符串：LocalDate.toDateString  Command层
  
 .equal()  判断
+
+
+导入接受参数:MultipartFile file  
+创建工作本new XFSSBook(file.getInputStream)   
+获取了工作表后去遍历数据即可，sheet.getRow/getCell  
