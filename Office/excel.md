@@ -1,7 +1,8 @@
 ctrl+t 美化表格  
 ctrl+; 输入当时时间
 alt+↓ 生成下拉菜单
-ctrl + shifr + - 去除边框
+ctrl + shift + - 去除边框
+ctrl + shift + 3 快速设置日期 /4rmb/5%
 数据分列，分割数据，并设置格式，选择显示单元格，复制后粘贴倒置  
 合并数据，phonetic(a1:b2) 
 
