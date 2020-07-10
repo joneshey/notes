@@ -6,3 +6,9 @@
 ```
 paramsSerializer:  qs.stringify(params, {arrayFormat: 'repeat'})
 ```
+
+
+过滤器：  
+1. 创建axios实例，const service = axios.create({timeout:,baseURL:""})  
+2. 设置过滤器service.interceptors.response.use(response=>{},err)/request.use(request=>{},err)  
+3. 参数属性：request.headers/response.headers
