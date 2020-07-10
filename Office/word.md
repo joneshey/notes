@@ -3,4 +3,4 @@
 2. 定义几行几列
 
 ###　增加下划线
-ctrl+u  shift + -a按enter
+ctrl+u  shift + - 输入文字后换行再输入---按enter
