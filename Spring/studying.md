@@ -177,3 +177,5 @@ setHeader（"content-disposition","attachment;filname=xx.xlsx" ）以及contentT
 然后通过out.write()写入数据，且要关闭workbook和out  
 注意导出文件的文件名如果中文乱码需要使用base64转义在前端去转义回来
 
+split方法为何不能用小数点bai(.)做参数  
+`a.b.c".split("\\."); `
