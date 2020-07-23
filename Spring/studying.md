@@ -181,3 +181,37 @@ split方法为何不能用小数点bai(.)做参数
 `a.b.c".split("\\."); `
 
 或者使用"".subString("".indexOf("."));  
+
+
+## 连接ftp传输文件
+1. 连接ftp
+```
+FTPClient ftpClient = new FTPClient();
+ftpClient.connect(host,port);
+int replyCode = ftpClient.getReplyCode();
+//FTPReply.isPositiveCompletion(replyCode)  boolean
+boolean login = ftpClient.login(user,psw);
+//设置文件传输类型
+ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+ftpClient.changeWorkingDirectiory(dict);//返回boolean,相当于cd
+```
+2. 获取文件 
+```
+ftpClient.listFiles();
+//遍历，获取名字  thread.sleep(1000*5)休眠
+file[i].isFile()/isDictionary()
+```
+3. 下载文件，判断目录，并可以覆盖文件
+```
+File dir = new　File(dir);
+if(!dir.exist()){
+    dir.mkdir();
+}
+//下载到本地
+File localFile = new File (dir,fileName)
+OutputStream out = new FileOutPutStream(localFile);
+ftpClient.retrieveFile(name,out);
+out.close()
+```
+4. 删除文件
+ftpClient.deleteFile();
