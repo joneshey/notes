@@ -215,3 +215,22 @@ out.close()
 ```
 4. 删除文件
 ftpClient.deleteFile();
+
+## 写sql
+1. 需要注意注入sql安全，因此使用插值法
+```
+String sql = "select * from table where id = ?"
+con = DriverManager.getConnection(dbUrl,user,psw);
+ps = con.prepareStatement(sql);
+ps.setString (1,id)
+ResultSet rs = ps.executeQuery();//ps.executeUpdate();
+rs.next()/rs.getString("key")
+con.comitt()//执行非查询操作必须commit
+```
+2. 创建表  
+create table xxx(
+ prop1   type  not null,
+ CONSTRAINT prop1 PRIMARY KEY (prop1)
+);
+comment on column xx.prop1
+is '';
