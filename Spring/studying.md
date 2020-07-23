@@ -179,3 +179,5 @@ setHeader（"content-disposition","attachment;filname=xx.xlsx" ）以及contentT
 
 split方法为何不能用小数点bai(.)做参数  
 `a.b.c".split("\\."); `
+
+或者使用"".subString("".indexOf("."));  
