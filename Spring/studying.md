@@ -228,9 +228,11 @@ rs.next()/rs.getString("key")
 con.comitt()//执行非查询操作必须commit
 ```
 2. 创建表  
+```
 create table xxx(
  prop1   type  not null,
  CONSTRAINT prop1 PRIMARY KEY (prop1)
 );
 comment on column xx.prop1
 is '';
+```
