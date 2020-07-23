@@ -236,3 +236,16 @@ create table xxx(
 comment on column xx.prop1
 is '';
 ```
+
+3. 设置序列
+```
+create sequence seq_t_dept
+minvalue 1
+maxvalue 99999999
+start with 1
+increment by 1
+cache 50
+```
+每调用一次seq_t_dept.nextval,序列自增1  
+因此需要查看当前序号是currVal  
+`insert into dept_p values('001', '安保部', '000', 1, seq_on_test.nextval);`
