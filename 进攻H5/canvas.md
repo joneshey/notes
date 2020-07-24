@@ -25,3 +25,14 @@ save() 和 restore()
 save 和 restore 方法是用来保存和恢复 canvas 状态的，都没有参数。  
 Canvas 的状态就是当前画面应用的所有样式和变形的一个快照。
 * restore()：每一次调用 restore 方法，上一个保存的状态就从栈中弹出，所有设定都恢复
+
+```
+var gradient=ctx.createLinearGradient(0,0,170,0);
+gradient.addColorStop("0","magenta");
+gradient.addColorStop("0.5","blue");
+gradient.addColorStop("1.0","red");
+// 用渐变进行填充
+ctx.strokeStyle=gradient;
+ctx.lineWidth=5;
+ctx.strokeRect(20,20,150,100);
+```
