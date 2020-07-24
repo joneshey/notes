@@ -37,3 +37,9 @@ ctx.strokeStyle=gradient;
 ctx.lineWidth=5;
 ctx.strokeRect(20,20,150,100);
 ```
+
+```
+ctx.moveTo(100, 400);//（从上一点）起始点
+ctx.quadraticCurveTo(200, 500, 300, 400);  //x1,x2为调整坐标，x3,x4为终点
+ctx.stroke();
+``
