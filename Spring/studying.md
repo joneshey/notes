@@ -227,6 +227,14 @@ ResultSet rs = ps.executeQuery();//ps.executeUpdate();
 rs.next()/rs.getString("key")
 con.comitt()//执行非查询操作必须commit
 ```
+
+```
+String sql = "select * from table where id = ?"
+SqlRobot xx = new SqlRobot(sql);
+xx.setVar(1,"aa");
+Commsql sc = new CommSql(xx);
+sc.get(0,"ID")
+```
 2. 创建表  
 ```
 create table xxx(
