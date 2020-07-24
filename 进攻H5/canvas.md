@@ -2,6 +2,7 @@
 ```
 var lineCaps = ["butt", "round", "square"];   //线条末端样式
 var lineJoin = ['round', 'bevel', 'miter'];  //线条间连接
+cxt.setLineDash([10, 20, 30]);  //设置虚线
 for (var i = 0; i < 3; i++){
     ctx.beginPath();
     ctx.moveTo(20 + 30 * i, 30);
