@@ -78,3 +78,25 @@ ctx.bezierCurveTo(150, 250, 250, 350, 300, 300);
 即：`ctx.arc(100+cos(deg)*半径,100+sin(deg)*半径)`
 * 移动之前要把路径点moveTo(100+cos(deg)*半径+cos(deg)*小圆半径) ，不然会多出一条线  //带验证，不需要moveTo直接画
 最后使用递归和setTimeout绘制即可，记住setTimeout的回调不能传参，不然就是直接执行，因此多创建一个匿名函数  
+```
+//外环
+ctx.arc(200,200,100,0,2*Math.PI)
+ctx.stroke();
+
+var angle = 0;
+drawCircle(angle)；
+function drawCircle(angle){
+    if(angle>=360) return;
+    ctx.clearRect(0,0,500,500)  //画布
+    ctx.beginPath();
+    var angleTick = angle * (Math.PI/180);
+    ctx.arc(200+Math.cos(angleTick)*100,200+Math.sin(angleTick)*100,0,2*Math.PI);
+    ctx.fillStyle = "rgb()";
+    ctx.fill();
+    ctx.closePath();
+    angle+=1;
+    setTimeout(()=>{
+        drawCircle(angle);
+    },100)
+}
+```
