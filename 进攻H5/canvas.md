@@ -61,3 +61,5 @@ ctx.stroke();
 ctx.moveTo(100, 300);//（从上一点）
 ctx.bezierCurveTo(150, 250, 250, 350, 300, 300);
 ```
+
+Math.Sin(Math.PI*30.0/180.0);
