@@ -76,5 +76,5 @@ ctx.bezierCurveTo(150, 250, 250, 350, 300, 300);
 使用sin和cos表示y和x的移动距离  
 `deg = x * π/180`
 即：`ctx.arc(100+cos(deg)*半径,100+sin(deg)*半径)`
-
+* 移动之前要把路径点moveTo(100+cos(deg)*半径+cos(deg)*小圆半径) ，不然会多出一条线
 最后使用递归和setTimeout绘制即可，记住setTimeout的回调不能传参，不然就是直接执行，因此多创建一个匿名函数  
