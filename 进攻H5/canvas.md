@@ -11,6 +11,8 @@ for (var i = 0; i < 3; i++){
     ctx.lineCap = lineCaps[i];
     ctx.lineJoin = lineJoin[i];
     
+    ctx.arc(x,y,半径r,起始角度,结束角度（Math.pi,实际为周长））
+    
     ctx.globalCompositeOperation = "source-over"; //source-in source-atop destination-over destination-in  destination-out全局两个图形合成操作
     ctx.transform(1, 1, 0, 1, 0, 0);  //矩阵变形
     
