@@ -11,7 +11,10 @@ for (var i = 0; i < 3; i++){
     ctx.lineCap = lineCaps[i];
     ctx.lineJoin = lineJoin[i];
     
-    ctx.arc(x,y,半径r,起始角度,结束角度（Math.pi,实际为周长））
+    ctx.arc(x,y,半径r,起始角度,结束角度（Math.pi,实际为周长））1-2π
+    //    sAngle	起始角，以弧度计（弧的圆形的三点钟位置是 0 度）。  
+    // eAngle	结束角，以弧度计。  
+    //  counterclockwise	可选。规定应该逆时针还是顺时针绘图。False = 顺时针，true = 逆时针。   
     
     ctx.globalCompositeOperation = "source-over"; //source-in source-atop destination-over destination-in  destination-out全局两个图形合成操作
     ctx.transform(1, 1, 0, 1, 0, 0);  //矩阵变形
