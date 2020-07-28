@@ -1,4 +1,5 @@
 ## canvas
+速查：[!https://www.webhek.com/post/html5-canvas-cheat-sheet.html]
 ```
 var lineCaps = ["butt", "round", "square"];   //线条末端样式
 var lineJoin = ['round', 'bevel', 'miter'];  //线条间连接
