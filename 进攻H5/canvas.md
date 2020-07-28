@@ -101,3 +101,34 @@ function drawCircle(angle){
     },100)
 }
 ```
+
+####  参考
+1.canvas 绘制贝塞尔二阶曲线
+quadraticCurveTo方法是canvas自带的绘制贝塞尔二阶曲线公式，传入控制点和终点，画出曲线
+
+function draw_curve(obj) {
+    //绘制2次贝塞尔曲线
+    context.beginPath();
+    context.moveTo(obj.p0_x,obj.p0_y);/*开始点*/
+    context.quadraticCurveTo(obj.p1_x,obj.p1_y,obj.p2_x,obj.p2_y);/*前两个是控制点坐标xy，后两个是结束点坐标xy*/
+    context.strokeStyle = "#000";
+    context.stroke();
+    context.closePath();
+}
+2.利用贝塞尔二阶曲线公式计算出曲线某点坐标
+我们知道了三点，起始点P0，中间点（控制点）P1，和终点P2。
+
+二阶曲线公式为B(t) = (1-t)^2 P0 + 2(1-t)tP1+ t^2P2;
+
+这里的t是从0到0.99的数，可以取间隔0.01递增
+
+当t为0.05时候，曲线上面某点的坐标O(Ox,Oy)的计算为
+Ox = (1-t)^2 P0x + 2(1-t)tP1x+ t^2P2x;
+Oy = (1-t)^2 P0y + 2(1-t)tP1y+ t^2P2y;
+
+//利用贝塞尔曲线公式计算出曲线上某点坐标
+function get_bezier_dot(t,obj){
+    var x = (1-t)*(1-t)*obj.p0_x + 2*t*(1-t)*obj.p1_x + t*t*obj.p2_x;
+    var y = (1-t)*(1-t)*obj.p0_y + 2*t*(1-t)*obj.p1_y + t*t*obj.p2_y;
+    return {x:x,y:y}
+}
