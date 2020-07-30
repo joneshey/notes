@@ -47,3 +47,19 @@ Date sd1=df.parse(beginTime);
 Date sd2=df.parse(endTime);  
 System.out.println(sd1.before(sd2));  
 System.out.println(sd1.after(sd2));  
+
+使用SimpleDateFormat格式化格式时:
+
+1、yyyy表示年，如2013；
+
+2、MM表示月，如12；
+
+3、dd表示天，如31；
+
+4、hh表示用12小时制，如7；
+
+5、HH表示用24小时制，如18；
+
+6、mm表示分，如59；
+
+7、ss表示秒，如59；
