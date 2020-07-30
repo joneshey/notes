@@ -54,5 +54,34 @@ if(beginTime.before(cTime)){}
 ```
 InputStream input = ftpClient.retrieveFileStream(fileName);
 if(input == null){} //判空
-BufferedReader reader = new BufferedR
+BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+reader.readLine()
+input.close();
+//最后记得告诉ftpClient已经读取完成
+ftpClient.completePendingCommand();
 ```
+2). 与数据库的标志字段对比equals
+
+5. 下载文件
+1). 判断路径是否存在
+```
+File dir  = new File(path);
+if(!dir.exists())  
+  dir.mkdirs();  //创建路径，且可以跨级创建
+File file = new File(dir,fileName);
+OutputStream out = FileOutputStream(file);
+ftpClient.retrieveFile(fileName,out);
+out.close()
+```
+
+6. 日志
+使用log4j.Logger,然后定义静态变量Logger.getLogger("Name");  
+配置log4j.properties文件，指定Name
+```
+log4j.rootLogger   日志级别
+log4j.logger.org   日志级别
+log4j.logger.name  
+log4j.appender.name /file/DatePattern/layout/
+```
+
+7. 数据库
