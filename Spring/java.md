@@ -40,3 +40,10 @@ System.currentTimeMillis()
 导入接受参数:MultipartFile file  
 创建工作本new XFSSBook(file.getInputStream)   
 获取了工作表后去遍历数据即可，sheet.getRow/getCell  
+
+比较时间  
+SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+Date sd1=df.parse(beginTime);  
+Date sd2=df.parse(endTime);  
+System.out.println(sd1.before(sd2));  
+System.out.println(sd1.after(sd2));  
