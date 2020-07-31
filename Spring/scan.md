@@ -23,6 +23,7 @@ ping 127.0 -n 60 >nul
 1. 在规定时间内扫描，则需要在配置文件中设定扫描开始于结束时间：    
 读取配置  
 ```java
+//在构造函数中定义配置的参数
 InputStream input = new FileInputStream("xxxx.txt")；
 Properties prop = new Properties();
 prop.load(input);
@@ -78,10 +79,25 @@ out.close()
 使用log4j.Logger,然后定义静态变量Logger.getLogger("Name");  
 配置log4j.properties文件，指定Name
 ```
-log4j.rootLogger   日志级别
+log4j.rootLogger   日志级别（info,debug）
 log4j.logger.org   日志级别
 log4j.logger.name  
 log4j.appender.name /file/DatePattern/layout/
 ```
+如果不指定file则不会输出日志
 
 7. 数据库
+
+
+
+代码评审时，注意点：  
+1. 性能问题：  
+由于扫描程序每秒扫描一次，因此要注意重复切换目录、操作数据库、读取文件、输出日志量的性能问题，减少不必要的性能操作。  
+2. 读取文件：  
+读取文件读取多行，要判断reader.readLine()!=null;然后对读取的一行进行拼接。   
+读取之后需要关闭输入/出流，且判断输入/输出流是否为空，否则关闭时会报空指针异常。  
+3. 代码优化：  
+把每个功能都抽离成函数，避免逻辑混乱以及代码维护困难。   
+4. 异常处理：
+操作数据库异常后，要关闭数据连接；  
+读写操作异常后，要关闭流；  
