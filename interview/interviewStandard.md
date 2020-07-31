@@ -16,8 +16,53 @@
  
 ### 正文  
 2. webpack/fis实践  
+1). FIS  
+执行fis发布的命令`CALL fis release [环境配置参数] -f [fis.js] -w`;//-w 持续更新   
+fis.set('namespace',xxx)  //为独立模块打包
 
 
+fis.match()//匹配对应的文件进行操作
+```
+fis.match('static/**/xxx.js',{
+  useHase: true // 默认为true,是否加时间戳
+  useSameNameRequire: true  //是否重名，默认为false
+  moduleId: //设置模块的id
+})
+
+fis.match('*',{
+  url: '/${namespace}$0'  //选择符
+  release: '${dir}/${namespace}/$0'  //
+})
+
+fis.match('::package',{
+ packager:fis.plugin('map',{  //进行打包压缩
+  'static/pkg/common.css':[
+    'static/lib/css/vue.min.css'
+  ]  //输出文件common.css在目录static/pkg
+ })
+})
+
+fis.mathc('*.xx',{
+  optimizer:fis.plugin('beautify-css')  //使用beautify插件进行优化文件
+})
+```
+fis.hook('commonjs',{wrap:true})  //支持的模块化
+
+fis.config.merge  
+```
+fis.config.merge({
+ namespace:  '' //模块名
+ templateDir:  ''//模块目录
+ backendConfigDir: '' //后台配置文件目录
+ modules:
+ roadMap:
+ settings:
+ deploy:{  //部署
+   local:  {from:  ,to:} //本地 ，from省略表示从根目录开始上传
+   backend: {to:}   //后台资源目录
+ }
+})
+```
 4. 性能优化  
 1). 从接口获取的数据内容是否在首屏加载时必要显示，如果接口返回的数据量大，且非必要，则可以等首屏加载后再调用  
 2). 加载的资源是否有依赖顺序，如果有，需要按顺序去加载  
