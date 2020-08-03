@@ -14,8 +14,8 @@
  
  
  
-### 正文  
-1. IndexedDB
+## 正文  
+### 1. IndexedDB  
 IndexedDB 的主要设计目标之一就是允许大量数据可以被存储以供离线使用  
 
 window.indexedDB判断是否支持某一浏览器   
@@ -133,10 +133,22 @@ index.openCursor(boundKeyRange,'prev'//倒序).onsuccess = function(event) {
   }
 };
 ```
+使用完数据库需要db.close
+```
+var store = getObjectStore(DB_STORE_NAME, 'readwrite');
+    var req = store.clear();
+    req.onsuccess = function(evt) {
+      displayActionSuccess("Store cleared");
+      displayPubList(store);
+    };
+    req.onerror = function (evt) {
+      console.error("clearObjectStore:", evt.target.errorCode);
+      displayActionFailure(this.error);
+    };
+```
 
 
-
-2. webpack/fis实践  
+###　2. webpack/fis实践  
 1). FIS  
 执行fis发布的命令`CALL fis release [环境配置参数] -f [fis.js] -w`;//-w 持续更新   
 fis.set('namespace',xxx)  //为独立模块打包
@@ -184,14 +196,14 @@ fis.config.merge({
  }
 })
 ```
-4. 性能优化  
+### 4. 性能优化  
 1). 从接口获取的数据内容是否在首屏加载时必要显示，如果接口返回的数据量大，且非必要，则可以等首屏加载后再调用  
 2). 加载的资源是否有依赖顺序，如果有，需要按顺序去加载  
 3). 接口是否位于循环体，接口返回的数据是否能调用一次后存放在浏览器缓存或者内存，避免重复调用  
 4). 压缩静态资源，可以使用打包工具，或者按需加载模块（模块化以及webpack、fis）
 
 
-6. 前后端交互流程  
+### 6. 前后端交互流程  
 1). 用户操作后触发事件；  
 2). 前端根据具体事件向后端发送请求（同步或异步方式）  
 3). 请求包括接口定义的参数以及header请求头信息  
