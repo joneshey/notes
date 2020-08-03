@@ -15,6 +15,23 @@
  
  
 ### 正文  
+1. IndexedDB
+window.indexedDB判断是否支持某一浏览器   
+使用模式：(异步调用)  
+1). 打开数据库，window,indexedDB.open("name")    
+open()返回IDBOpenDBRequest对象，包含result或者error的值。   
+如果数据库不存在或定义更高的版本（第二个参数版本号）则创建，触发onupgradeneeded事件  
+
+2). 在数据库创建一个对象仓库  
+
+3). 启动一个事物并发送请求执行数据库操作  
+
+4). 通过监听DOM事件等待操作完成  
+
+5). 对操作结果进行操作  
+
+
+
 2. webpack/fis实践  
 1). FIS  
 执行fis发布的命令`CALL fis release [环境配置参数] -f [fis.js] -w`;//-w 持续更新   
@@ -75,7 +92,7 @@ fis.config.merge({
 2). 前端根据具体事件向后端发送请求（同步或异步方式）  
 3). 请求包括接口定义的参数以及header请求头信息  
 4). 后端接受请求后处理数据，并返回响应数据  
-5). 前端接受数据后进行页面数据交互响应  
+5). 前端接受数据后进行页面数据交互响应   
 同步或异步：  
 同步： 通过表单元素发送请求，无论是form.commit还是元素中指定action都属于同步
 异步： $.ajax()  原生XmlHttpRequest()  axios
