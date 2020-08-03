@@ -82,9 +82,10 @@ out.close()
 log4j.rootLogger   日志级别（info,debug）
 log4j.logger.org   日志级别
 log4j.logger.name  
-log4j.appender.name /file/DatePattern/layout/
+log4j.appender.name /file/DatePattern/layout/  
 ```
-如果不指定file则不会输出日志
+logger继承root的日志，如果对info或者debug自定义了appender则会输出两次  
+如果不指定file则不会输出日志  
 
 7. 数据库
 
