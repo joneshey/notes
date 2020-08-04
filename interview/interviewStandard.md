@@ -241,7 +241,83 @@ fis.config.merge({
 ```
 
 2). webpack  
+在index.js引入import css,则依赖的index.html会添加style标签在head里面  
+```
+ module: {
+   rules: [
+       {
+         test: /\.css$/,
+         use: [
+           'style-loader',
+           'css-loader'
+        ]
+      },
+      {
+         test: /\.(png|svg|jpg|gif)$/,
+         use: [
+           'file-loader'  //font文件也是使用file-loader
+         ]
+       }
+    ]
+  }
+```
+而使用loader（css-loader或者html-loader）会让资源能够识别到本地文件，并转换引用名字  
+使用字体时，可以通过@font-face定义后字体属性，如font-family(可自定义)，src(资源路径)，在css使用时直接font-family:自定义名称  
 
+输出管理：  
+`entry:{name1:'',name2:'' }`   
+`output: {fileName:[name].bundle.js,path: path.resolve(__dirname, 'dist')} `,name对应的是入口文件的模块名  
+
+
+如果更改入口起点的名称，或者添加了一个新的名称，生成的包将被重命名在一个构建中，但是index.html文件仍引用旧的文件。  
+因此使用html-webpack-plugin解决以上问题,该插件会覆盖原有的index.html并且会将所有的bundle加到html里面  
+```
+----引入HtmlWebpackPlugin
+plugins: [
+     new HtmlWebpackPlugin({
+       title: 'Output Management'  //	用于生成的HTML文档的标题
+       filename: //将HTML写入的文件。默认为index.html
+       inject:  head//true和body都会将js资源放在body底部
+       favicon: //图片路径
+       meta:  //meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
+     }),
+     
+     new CleanWebpackPlugin(['dist']), //清理旧文件，安装clean-webpack-plugin依赖，先清除后构建，注意顺序
+   ],
+```
+
+快速排查问题可以在开发环境的配置文件使用：`devtool:'inline-source-map'`,会快速告诉开发者在哪里出错  
+
+观察模式可以在脚本配置 webpack --watch   
+或者使用webpack-dev-server  
+```
+---脚本配置"webpack-dev-server --open"
+---在module里面去添加配置，指定扫描目录
+devServer: {
+    contentBase: './dist'
+ },
+```
+或者使用 webpack-dev-middleware，用于开发环境，使用node命令去执行服务器文件server.js  
+如果是测试环境，可能不会使用node代理，则会使用nginx，这时候只需要指定dist目录即可  
+```
+----配置文件要设置publicPath，供服务器使用:path.resolve(__dirname,'/dist')
+----server.js
+const express = require('express');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
+const app = express();
+const config = require('./webpack.config.js');  //使用config配置文件
+const compiler = webpack(config);
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}));
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!\n');
+});
+```
 
 
 ### 4. 性能优化  
