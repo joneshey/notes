@@ -3,7 +3,7 @@
 根据最近的求职要求归纳了以下需要熟悉的知识点  
 
 1. 缓存IndexedDB  (√)  
-2. webpack的实践  
+2. webpack的实践  (√)  
 3. mobileWeb 的页面适配  
 4. 性能优化  (√)  
 5. sass预处理器  (√)  
