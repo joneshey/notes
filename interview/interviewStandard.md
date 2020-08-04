@@ -319,6 +319,105 @@ app.listen(3000, function () {
 });
 ```
 
+生产配置：  
+项目往往需要独立生产配置以及开发配置，但遵循不重复的规则，因此需要一个webpack-merge去把通用的配置合并  
+新增webpack.common.js / webpack.prod.js   
+```
+---webpack.prod.js
+require(webpack-merge);
+require(webpack.common.js);
+
+module.exports=merge(common,{//这里编写生产的配置
+  plugins:[
+    new UglifyJSPlugin({
+      sourceMap:true  //而不是inline-source,增大压缩包大小
+    })  //代码压缩
+  ]
+})
+```
+脚本区分生产和开发环境：webpack --config webpack.prod.js  
+指定环境：  
+要注意设置process.env.NODE_ENV === 'production'，因为很多依赖包会根据这个选择不同的资源，使用definePlugin去定义该环境常量  
+```
+new webpack.DefinePlugin({   //webpack包
+      'process.env.NODE_ENV': JSON.stringify('production') 
+ })
+```
+
+代码分离：  
+入口起点：使用 entry 配置手动地分离代码。  
+防止重复：使用 CommonsChunkPlugin 去重和分离 重复模块chunk。  
+动态导入：通过模块的内联函数调用来分离代码。  
+
+在module中设置共用的模块名，独立出一个bundle
+```
+ new webpack.optimize.CommonsChunkPlugin({
+      name: 'common' // 指定公共 bundle 的名称。  
+  })
+```
+
+资源缓冲:  
+通过使用 output.filename 进行文件名替换，可以确保浏览器获取到修改后的文件。  
+[hash] 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 [chunkhash] 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。    
+`filename: '[name].[chunkhash].js'`   
+将第三方库(library)（例如 lodash 或 react）提取到单独的 vendor chunk 文件中，是比较推荐的做法，这是因为，它们很少像本地的源代码那样频繁修改。
+因此通过实现以上步骤，利用客户端的长效缓存机制，可以通过命中缓存来消除请求，并减少向服务器获取资源，同时还能保证客户端代码和服务器端代码版本一致。   
+```
+   entry: {
+     main: './src/index.js',
+     vendor: [
+       'lodash'
+     ]
+   },
+   plugins:[
+    new webpack.optimize.CommonsChunkPlugin({  //CommonsChunkPlugin 的 'vendor' 实例，必须在 'manifest' 实例之前引入。
+       name: 'vendor'
+   }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
+    })
+    ]
+```
+当新引入一个依赖import(),模块[chunck]会根据以下发送改变：
+main bundle 会随着自身的新增内容的修改，而发生变化。  
+vendor bundle 会随着自身的 module.id 的修改，而发生变化。  
+manifest bundle 会因为当前包含一个新模块的引用，而发生变化。  
+但对于vendor,添加依赖不会改变module.id，因此不应该发送变化，使用new webpack.HashedModuleIdsPlugin()能够有效解决添加本地依赖导致每次构建都重新打包的问题  
+
+TS构建：(skip)  
+npm install --save-dev typescript ts-loader  
+建立tsconfig.json  
+tsc xx.ts
+```
+ rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+```
+
+构建性能：  
+* 将 loaders 应用于最少数的必要模块，设定扫描目录
+```
+{
+  test: /\.js$/,
+  include: path.resolve(__dirname, "src"),
+  loader: "babel-loader"
+}
+```
+* 自定义解析，如果你使用自定义解析 plugins ，并且没有指定 context 信息，可以设置 resolve.cacheWithContext: false
+* 在内存中编译，通过在内存中进行代码的编译和资源的提供，但并不写入磁盘来提高性能:webpack-dev-server，webpack-hot-middleware，webpack-dev-middleware
+* 开发环境避免使用生产环境的工具，以下这些工具在开发中通常被排除在外:
+```
+UglifyJsPlugin
+ExtractTextPlugin
+[hash]/[chunkhash]
+AggressiveSplittingPlugin
+AggressiveMergingPlugin
+ModuleConcatenationPlugin
+```
 
 ### 4. 性能优化  
 1). 从接口获取的数据内容是否在首屏加载时必要显示，如果接口返回的数据量大，且非必要，则可以等首屏加载后再调用,或者减少数据量的获取   
