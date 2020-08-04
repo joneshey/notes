@@ -2,12 +2,12 @@
 前言：  
 根据最近的求职要求归纳了以下需要熟悉的知识点  
 
-1. 缓存IndexedDB  
+1. 缓存IndexedDB  (√)  
 2. webpack的实践  
 3. mobileWeb 的页面适配  
-4. 性能优化  
+4. 性能优化  (√)  
 5. sass预处理器  
-6. 前后端交互流程  
+6. 前后端交互流程  (√)  
 7. 模块化和组件化  
 8. webGL  
  
@@ -147,15 +147,57 @@ var store = getObjectStore(DB_STORE_NAME, 'readwrite');
     };
 ```
 
-
-###　2. webpack/fis实践  
+### 2. webpack/fis实践  
 1). FIS  
-执行fis发布的命令`CALL fis release [环境配置参数] -f [fis.js] -w`;//-w 持续更新   
+执行fis发布的命令`CALL fis release [环境配置参数] -f [fis.js] -w`;//-w 持续更新  -L 浏览器自动刷新  
 fis.set('namespace',xxx)  //为独立模块打包
 
 
 fis.match()//匹配对应的文件进行操作
 ```
+----解决sass编译
+// npm install -g fis-parser-less-2.x
+fis.match('**/*.less', {
+    rExt: '.css', // from .less to .css  输出成css
+    parser: fis.plugin('less-2.x', {   //安装less后，启用less插件解析匹配文件的代码
+        // fis-parser-less-2.x option
+    }),
+    
+   release: 'xxx' // 这个对vue组件无效,因为组件中的样式片段编译只是编译内容
+});
+// 要配置其release，需要针对生成的css文件：
+fis.match('src/vue/(**.css)', {
+  release: '/vue-style/$1'
+});
+
+
+----实现模块化
+// 开启模块化开发
+fis.hook('module');   //fis.hook('commonjs',{wrap:true})  //支持的模块化
+fis.match('*.es6', {
+  isMod: true  //是否启用模块化工具，require，define
+});
+
+=>  
+require('./comp/1-0/1-0.js');
+var btn = document.getElementById('btn');
+var handler = function() {
+  require(['./comp/2-0/2-0.js']);   //类似es7引入import
+};
+    
+   
+fis.match('::package', {
+  postpackager: fis.plugin('loader')   //使用插件loader打包
+  packager:fis.plugin('map',{  //进行打包压缩
+  'static/pkg/common.css':[
+    'static/lib/css/vue.min.css'
+  ]  //输出文件common.css在目录static/pkg
+ })
+})
+=>  .match('**/*.{css,scss}', {
+         packTo: '/static/pkg/all.css' //css打成一个包
+     });
+
 fis.match('static/**/xxx.js',{
   useHase: true // 默认为true,是否加时间戳
   useSameNameRequire: true  //是否重名，默认为false
@@ -165,21 +207,22 @@ fis.match('static/**/xxx.js',{
 fis.match('*',{
   url: '/${namespace}$0'  //选择符
   release: '${dir}/${namespace}/$0'  //
+  useCache : false  是否使用缓存
 })
 
-fis.match('::package',{
- packager:fis.plugin('map',{  //进行打包压缩
-  'static/pkg/common.css':[
-    'static/lib/css/vue.min.css'
-  ]  //输出文件common.css在目录static/pkg
- })
-})
 
 fis.mathc('*.xx',{
-  optimizer:fis.plugin('beautify-css')  //使用beautify插件进行优化文件
+  optimizer:fis.plugin('beautify-css')  //使用beautify插件进行压缩资源
 })
 ```
-fis.hook('commonjs',{wrap:true})  //支持的模块化
+fis.media('prod') // 按生产发布
+```
+fis.media('prod').match('*', {
+  deploy: fis.plugin('http-push', {
+    receiver: 'http://remote-rd-host/receiver.php'
+  })
+});
+```
 
 fis.config.merge  
 ```
@@ -196,12 +239,48 @@ fis.config.merge({
  }
 })
 ```
+
+2). webpack  
+
+
+
 ### 4. 性能优化  
-1). 从接口获取的数据内容是否在首屏加载时必要显示，如果接口返回的数据量大，且非必要，则可以等首屏加载后再调用  
+1). 从接口获取的数据内容是否在首屏加载时必要显示，如果接口返回的数据量大，且非必要，则可以等首屏加载后再调用,或者减少数据量的获取   
 2). 加载的资源是否有依赖顺序，如果有，需要按顺序去加载  
 3). 接口是否位于循环体，接口返回的数据是否能调用一次后存放在浏览器缓存或者内存，避免重复调用  
 4). 压缩静态资源，可以使用打包工具，或者按需加载模块（模块化以及webpack、fis）
+5). DOM操作导致的重绘和回流问题：
+   5.1). DOM的增删行为
+   5.2). 几何属性的变化:  
+   如果要改变多个属性，最好将这些属性定义在一个class中，直接修改class名，这样只用引起一次回流。
+   5.3). 元素位置的变化:  
+   修改一个元素的左右margin，padding之类的操作，所以在做元素位移的动画，不要更改margin之类的属性，使用定位脱离文档流后改变位置会更好。
+   5.4). 获取元素的偏移量属性:  
+   例如获取一个元素的scrollTop、scrollLeft、scrollWidth、offsetTop、offsetLeft、offsetWidth、offsetHeight之类的属性，浏览器为了保证值的正确也会回流取得最新的值，所以如果你要多次操作，最取完做个缓存。
+   5.5). 页面初次渲染
+   5.6). 浏览器窗口尺寸改变
 
+### 5. sass预处理器
+先安装或者安装依赖包sass   
+如果直接编译可使用sass xx.sass xxx.css  
+在项目使用sass:  
+在webpack.conf.js配置rules属性  
+```
+{
+ test:/\.scss$/,
+ loaders:['style','css','sass']  => lang = "sass"
+}
+```
+或者，需要通过fis.parser解析即可   
+```
+fis.match('**/*.less', {
+    rExt: '.css', // from .less to .css  输出成css
+    parser: fis.plugin('less-2.x', {   //安装less后，启用less插件解析匹配文件的代码
+        // fis-parser-less-2.x option
+    }), 
+   release: 'xxx' 
+});
+```
 
 ### 6. 前后端交互流程  
 1). 用户操作后触发事件；  
