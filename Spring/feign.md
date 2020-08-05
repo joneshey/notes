@@ -14,10 +14,10 @@ enruka:
 @Component
 //覆写apply方法
 FeignInspector implements RequestInspector{  //稍后补充
-    public void apply(RequestTemplate temp){
+    public void apply(RequestTemplate template){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getAttribute;
-        HttpServletRequest req = attr.getRequest(); //这里是http的请求
-        template.header();
+        HttpServletRequest req = attr.getRequest(); //这里是http的请求，从http请求获取头信息
+        template.header();   //设置服务端调度的头信息，(key,value)
     }
 }
 //PS:URLEncoder.encode(name,Charset.forName("UTF-8").name)
@@ -28,4 +28,6 @@ FeignInspector implements RequestInspector{  //稍后补充
 
 7. restful处理，将配置spring.mvc.hiddenmethod.filter.enable:true
 
-8. 由于底层传参时候对参数进行有转义，因此为了与后台保持一致的加密方式要使用URLDecoder.decode()后的参数进行加钱
+8. 由于底层传参时候对参数进行有转义，因此为了与后台保持一致的加密方式要使用URLDecoder.decode()后的参数进行加签名  
+仅限于get请求，先判断feign发送的请求是否为get,如果是则获取传递参数request.queries()  //Map<String,collection>  
+遍历queries的entrySet(),如果参数没有值，则设为空（后台当数据为空处理，能接受key值） 如果参数有一个值（基本类型）则直接加密  如果参数值不为1（可能是多个同名参数）则需要遍历值进行加密之后使用json格式化   
