@@ -240,7 +240,8 @@ fis.config.merge({
 })
 ```
 
-2). webpack  
+2). webpack   
+总流程： 初始化启动构建，读取配置参数，加载插件；然后针对每个入口的模块进行编译处理；最后就是分模块输出到dist  
 在index.js引入import css,则依赖的index.html会添加style标签在head里面  
 ```
  module: {
@@ -255,7 +256,7 @@ fis.config.merge({
       {
          test: /\.(png|svg|jpg|gif)$/,
          use: [
-           'file-loader'  //font文件也是使用file-loader
+           'file-loader'  //font文件也是使用file-loader  js使用babel-loader需要设置配置文件babel.lrc => {"presets":{"env"}}
          ]
        }
     ]
@@ -356,10 +357,12 @@ new webpack.DefinePlugin({   //webpack包
   })
 ```
 
-资源缓冲:  
+资源缓冲:（文件指纹）  
 通过使用 output.filename 进行文件名替换，可以确保浏览器获取到修改后的文件。  
 [hash] 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 [chunkhash] 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。    
 `filename: '[name].[chunkhash].js'`   
+而contentHash则是根据文件内容是否发生变化来改变hash值  
+
 将第三方库(library)（例如 lodash 或 react）提取到单独的 vendor chunk 文件中，是比较推荐的做法，这是因为，它们很少像本地的源代码那样频繁修改。
 因此通过实现以上步骤，利用客户端的长效缓存机制，可以通过命中缓存来消除请求，并减少向服务器获取资源，同时还能保证客户端代码和服务器端代码版本一致。   
 ```
@@ -463,6 +466,7 @@ fis.match('**/*.less', {
 3). 请求包括接口定义的参数以及header请求头信息  
 4). 后端接受请求后处理数据，并返回响应数据  
 5). 前端接受数据后进行页面数据交互响应   
+* get请求会请求缓存，post不会  
 同步或异步：  
 同步： 通过表单元素发送请求，无论是form.commit还是元素中指定action都属于同步
 异步： $.ajax()  原生XmlHttpRequest()  axios
