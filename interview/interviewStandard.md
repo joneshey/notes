@@ -437,7 +437,7 @@ ModuleConcatenationPlugin
    例如获取一个元素的scrollTop、scrollLeft、scrollWidth、offsetTop、offsetLeft、offsetWidth、offsetHeight之类的属性，浏览器为了保证值的正确也会回流取得最新的值，所以如果你要多次操作，最取完做个缓存。
    5.5). 页面初次渲染
    5.6). 浏览器窗口尺寸改变
-
+6). 加载优化：懒加载，避免重定向，使用cdn
 ### 5. sass预处理器
 先安装或者安装依赖包sass   
 如果直接编译可使用sass xx.sass xxx.css  
