@@ -18,6 +18,15 @@
 一个是出现tapable.plugins is deprecated. Use new API on `.hooks` instead，解决方案下载最新版本@next  
 一个是is not a constructor, 解决方案是引入时候用对象解构以及创建实例时不加参数  
 即便不引入新的js入口，只要配置了，使用html-webpack-plugin就会自动加入到html里面
-
+```  
+//没有默认入口，会覆盖dist的HTML
+html-webpack-plugin({
+  inject : false/body true,//编译后插入位置
+  template: "src/index.html",  //初始模板
+  filename:'',
+  title:''
+  chunk: [] //指定入口
+})
+```
 
 7.  
