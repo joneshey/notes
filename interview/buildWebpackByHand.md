@@ -40,5 +40,35 @@ plugins: [
 //生产上用hidden-source-map,nosources-source-map  
 
 8. 不需要手动编译且刷新，利用--watch 或者 webpack-dev-server   
-指定配置devServer:{contentBase:'./dist'}  //指定更新目录  
+指定配置devServer:{contentBase:'./dist'}  //指定更新目录   devServer.watchContentBase  //是否监听变化然后reload   
 先安装再去package.json去写脚本：webpack-dev-server --open  
+
+ 
+ 或者使用webpack-dev-middleware  
+ 在output配置指定publicPath: '/'  
+ 加上后台服务代码：  
+ ```
+ //然后使用node server.js
+ const express = require('express');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
+const app = express();
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
+// Tell express to use the webpack-dev-middleware and use the webpack.config.js
+// configuration file as a base.
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}));
+
+// Serve the files on port 3000.
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!\n');
+});
+ ```
+ 
+ 
+ 9.  启动模块热加载  
+ 添加配置：devServer.hot: true以及新增插件  new webpack.NamedModulesPlugin()和 new webpack.HotModuleReplacementPlugin()
