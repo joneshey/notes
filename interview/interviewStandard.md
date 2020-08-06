@@ -273,7 +273,7 @@ fis.config.merge({
 如果更改入口起点的名称，或者添加了一个新的名称，生成的包将被重命名在一个构建中，但是index.html文件仍引用旧的文件。  
 因此使用html-webpack-plugin解决以上问题,该插件会覆盖原有的index.html并且会将所有的bundle加到html里面  
 ```
-----引入HtmlWebpackPlugin
+----引入HtmlWebpackPlugin  引入是通过 const { CleanWebpackPlugin} = require('') //对象解构
 plugins: [
      new HtmlWebpackPlugin({
        title: 'Output Management'  //	用于生成的HTML文档的标题
