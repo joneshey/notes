@@ -293,7 +293,8 @@ plugins: [
 或者使用webpack-dev-server  
 ```
 ---脚本配置"webpack-dev-server --open"
----在module里面去添加配置，指定扫描目录
+---在
+里面去添加配置，指定扫描目录
 devServer: {
     contentBase: './dist'
  },
@@ -350,7 +351,7 @@ new webpack.DefinePlugin({   //webpack包
 防止重复：使用 CommonsChunkPlugin 去重和分离 重复模块chunk。  
 动态导入：通过模块的内联函数调用来分离代码。  
 
-在module中设置共用的模块名，独立出一个bundle
+在plugins中设置共用的模块名，独立出一个bundle
 ```
  new webpack.optimize.CommonsChunkPlugin({
       name: 'common' // 指定公共 bundle 的名称。  
