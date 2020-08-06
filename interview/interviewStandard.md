@@ -283,7 +283,8 @@ plugins: [
        meta:  //meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
      }),
      
-     new CleanWebpackPlugin(['dist']), //清理旧文件，安装clean-webpack-plugin依赖，先清除后构建，注意顺序
+     //new CleanWebpackPlugin(['dist']), //清理旧文件，安装clean-webpack-plugin依赖，先清除后构建，注意顺序
+  new CleanWebpackPlugin()//新用法
    ],
 ```
 
