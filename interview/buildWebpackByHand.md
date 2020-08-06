@@ -17,7 +17,7 @@
 //引入html-webpack-plugin和clean-webpack-plugin的问题:  
 一个是出现tapable.plugins is deprecated. Use new API on `.hooks` instead，解决方案下载最新版本@next  
 一个是is not a constructor, 解决方案是引入时候用对象解构以及创建实例时不加参数  
-即便不引入新的js入口，只要配置了，使用html-webpack-plugin就会自动加入到html里面
+即便不引入新的js入口，只要配置了，使用html-webpack-plugin就会自动加入到html里面   
 ```  
 //没有默认入口，会覆盖dist的HTML
 html-webpack-plugin({
@@ -28,5 +28,17 @@ html-webpack-plugin({
   chunk: [] //指定入口
 })
 ```
+遇到一个问题，配置了webpack --watch/-w 之后，发现更新了js,html会被删除，因此需要配置CleanWebpackPlugin
+```
+plugins: [
+        new CleanWebpackPlugin({cleanStaleWebpackAssets: false})
+    ]
+    //cleanStaleWebpackAssets： 删除陈旧的webpack资源。
+```
 
-7.  
+7. 开发调试，加入devtool:inline-source-map 则能显示具体哪一行哪一个文件报错，如果不配置则只会显示bundle.js报错  
+//生产上用hidden-source-map,nosources-source-map  
+
+8. 不需要手动编译且刷新，利用--watch 或者 webpack-dev-server   
+指定配置devServer:{contentBase:'./dist'}  //指定更新目录  
+先安装再去package.json去写脚本：webpack-dev-server --open  
