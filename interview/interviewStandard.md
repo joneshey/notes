@@ -280,7 +280,8 @@ plugins: [
        filename: //将HTML写入的文件。默认为index.html
        inject:  head//true和body都会将js资源放在body底部
        favicon: //图片路径
-       meta:  //meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
+       meta:  //meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'},
+       template: //指定某个模板，这样html-webpack才不会覆盖
      }),
      
      //new CleanWebpackPlugin(['dist']), //清理旧文件，安装clean-webpack-plugin依赖，先清除后构建，注意顺序
