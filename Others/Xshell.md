@@ -25,5 +25,9 @@ esc :wq  提交保存修改文件
 改完weblogic文件需要重启
 在bin目录中，./restart.sh
 
+查看进程  ps -ef|grep jar包名  
+删除进程  kill -9 pid  //-9强迫进程停止
+
 > 关于外部配置的问题：
 项目的登录入口消失，是因为设置了sec.form-lgn置否
+
