@@ -269,7 +269,6 @@ fis.config.merge({
 `entry:{name1:'',name2:'' }`   
 `output: {fileName:[name].bundle.js,path: path.resolve(__dirname, 'dist')} `,name对应的是入口文件的模块名  
 
-
 如果更改入口起点的名称，或者添加了一个新的名称，生成的包将被重命名在一个构建中，但是index.html文件仍引用旧的文件。  
 因此使用html-webpack-plugin解决以上问题,该插件会覆盖原有的index.html并且会将所有的bundle加到html里面  
 ```
@@ -362,7 +361,8 @@ new webpack.DefinePlugin({   //webpack包
   })
 ```
 
-资源缓冲:（文件指纹）  
+
+！！！！！资源缓冲:（文件指纹）  
 通过使用 output.filename 进行文件名替换，可以确保浏览器获取到修改后的文件。  
 [hash] 替换可以用于在文件名中包含一个构建相关(build-specific)的 hash，但是更好的方式是使用 [chunkhash] 替换，在文件名中包含一个 chunk 相关(chunk-specific)的哈希。    
 `filename: '[name].[chunkhash].js'`   
@@ -391,6 +391,20 @@ main bundle 会随着自身的新增内容的修改，而发生变化。
 vendor bundle 会随着自身的 module.id 的修改，而发生变化。  
 manifest bundle 会因为当前包含一个新模块的引用，而发生变化。  
 但对于vendor,添加依赖不会改变module.id，因此不应该发送变化，使用new webpack.HashedModuleIdsPlugin()能够有效解决添加本地依赖导致每次构建都重新打包的问题  
+
+
+[name].bundle.[chunkhash].js，不用hash，而用 chunkhash (js和css要使用chunkhash)， chunkhash 的话每一个js的模块对应的值是不同的(根据js里的不同内容进行生成)（只适用于js和css）  
+
+chunkHash重复：  
+css是使用 ExtractTextPlugin 插件引入的，这时候可以使用到这个插件提供的 contenthash ，如下(使用后css就有独立于js外的指纹了)，
+```
+//提取css文件
+new ExtractTextPlugin({
+     filename:'css/[name].[contenthash].css' 
+})
+```
+注意在新版本中，我在webpack3中测试的是，修改css的内容并不会引起js中的 chunkhash 变动(原因估计是webpack内置的算法变为了只计算js chunk)，所以css请务必使用 contenthash ，否则修改后无法生成新的签名，而是会覆盖以前的资源.  
+
 
 TS构建：(skip)  
 npm install --save-dev typescript ts-loader  
