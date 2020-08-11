@@ -97,3 +97,36 @@ series:[{
   type:'line'
 }]
 ```
+
+
+## 项目中使用的eChart    
+
+先echart.init().setOption({});  
+```
+ var myChart = echarts.init(document.getElementById('main'));
+  // 指定图表的配置项和数据
+  var option = {
+      title: {
+          text: 'ECharts 入门示例'
+      },
+      tooltip: {},
+      legend: {
+          data:['销量']
+      },
+      xAxis: {
+          data: ["A","B","C","D","E","F"]
+      },
+      yAxis: {},
+      series: [{
+          name: '',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+      }]
+  };
+  // 使用刚指定的配置项和数据显示图表。
+  myChart.setOption(option);
+``` 
+1. 图表类型  
+line\bar\scatter散点图\k值线\pie\radar雷达图\map\tree ...  \
+
+2. [http://www.max-logistics.com/Tpl/Home/default/Public/Hui/lib/echarts/2.2.7/doc/doc.html#Option]
