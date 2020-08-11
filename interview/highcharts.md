@@ -75,6 +75,7 @@ series:[{
 可以独立为`chart.setTitle({text:'',style:{}})`  
 
 3. 两条曲线图  
+```
 yAxias:[{
   tickPositioner:function(){
     //获取最大最小值
@@ -95,3 +96,4 @@ series:[{
 },{
   type:'line'
 }]
+```
