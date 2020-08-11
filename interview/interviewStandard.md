@@ -333,6 +333,8 @@ require(webpack.common.js);
 
 module.exports=merge(common,{//这里编写生产的配置
   plugins:[
+    new webpack.optimize.CommonsChunkPlugin({name:'vendor',minChunks(){} }) // 分离vendor.js到自己目录
+    new webpack.HashedModuleIdsPlugin(), // 当vendor没有发生改变时，保持moduleId稳定
     new UglifyJSPlugin({
       sourceMap:true  //而不是inline-source,增大压缩包大小
     })  //代码压缩
