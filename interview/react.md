@@ -10,6 +10,14 @@ jsx里面使用onClick/onChange
 
 * 是否需要引入jq, 由于使用vmnode，所有的虚拟节点都无法查找元素的html和id，除非你是使用引入方式使用react/vue框架
 
+工作原理：  
+1. 采用单向数据流  
+  props:用于父组件向下层组件传递参数，组件不能修改props值（与vue一样）  
+    props可以传递函数，父组件传递时直接写入自定义属性即可<child custom={this.fn} userId="xxx" ></child>  
+    当constructor完成后，this.props已经被复制，因此在componentWillMount事件中已经有值  
+  state:组件维护状态需要使用setState()函数进行修改，直接修改无法刷新，如this.xx ="' ？？
+    state
+
 生命周期：  
 1. 初始化 initialization  在建立属性和状态  
 2. 挂载  mounting  组件即将挂载，渲染，完成挂载   
