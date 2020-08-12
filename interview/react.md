@@ -6,7 +6,8 @@
 
 差异：  
 jsx里面使用onClick/onChange  
-在React定义的css属性使用驼峰值  
+在React定义的css属性使用驼峰值   
+类名使用
 
 * 是否需要引入jq, 由于使用vmnode，所有的虚拟节点都无法查找元素的html和id，除非你是使用引入方式使用react/vue框架
 
@@ -71,6 +72,20 @@ eventBus.addListener("myEvt",(e,param)=>{
 <div onClick={(e)=>eventBus.emit('myEvt',this,{otherParam:''} )}>
 ```
 
+纯函数无状态组件：  
+只有render方法  
+不支持state和生命周期方法、refs  
+建议将无状态组件写成函数  
+```
+function MyButton(props){
+  return(
+      <a>clickMe</a>
+  )
+}
+```  
+
+
+
 ------jsx事例  
 ```
 //引入React,{Component} from 'react';
@@ -95,3 +110,26 @@ class App extend Component{
 }
 export default App;
 ```
+
+
+## react-router  
+
+```
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+render(){
+  return (
+    <Router>
+      <div>
+        <child></child>
+        <div>
+          <Switch>
+            <Route path="/login" component={login} />  //引入的组件login
+          <Switch>
+        </div>
+      </div>
+    </Router>
+  )
+}
+```
+
+
