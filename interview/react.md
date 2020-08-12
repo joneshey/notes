@@ -16,7 +16,7 @@ jsx里面使用onClick/onChange
     props可以传递函数，父组件传递时直接写入自定义属性即可<child custom={this.fn} userId="xxx" ></child>  
     当constructor完成后，this.props已经被复制，因此在componentWillMount事件中已经有值  
   state:组件维护状态需要使用setState()函数进行修改，直接修改无法刷新，如this.xx ="' ？？
-    state
+    state:使用this.setState({ name:'little boy' })
 
 生命周期：  
 1. 初始化 initialization  在建立属性和状态  
@@ -48,6 +48,27 @@ class Father extend Component{  //在主组件注册
     })
   }
 }
+```
+
+组件交互：  
+1. 父子组件交互(props/event)
+//vue是使用props和$emit()  
+2. 非父子组件交互（eventBus/cookie/loacalStorage/store）  
+3. session\路由参数通讯  
+```
+//EventBus.js
+import {EventEmitter} from "events";
+export defalut new EventEmitter();
+
+//使用
+import eventBus from "./EventBus"
+
+//监听的组件
+eventBus.addListener("myEvt",(e,param)=>{
+  //在didMount事件中监听事件
+})
+//触发的组件
+<div onClick={(e)=>eventBus.emit('myEvt',this,{otherParam:''} )}>
 ```
 
 ------jsx事例  
