@@ -405,6 +405,7 @@ new ExtractTextPlugin({
 ```
 注意在新版本中，我在webpack3中测试的是，修改css的内容并不会引起js中的 chunkhash 变动(原因估计是webpack内置的算法变为了只计算js chunk)，所以css请务必使用 contenthash ，否则修改后无法生成新的签名，而是会覆盖以前的资源.  
 
+如果内容没变，chunkhash不会改变，即使dist重新清除了，打包也会以原来的chunkhash，保证全量部署覆盖也不会有影响改动原来的文件内容。  
 
 TS构建：(skip)  
 npm install --save-dev typescript ts-loader  
