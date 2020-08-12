@@ -113,9 +113,36 @@ export default App;
 
 
 ## react-router  
-
+路由也是个组件  
+<BrowserRouter> 浏览器的路由组件  
+```
+BrowserRouter组件提供了四个属性
+1. basename: 字符串类型，路由器的默认根路径
+  如：
+  <BrowserRouter basename="/admin"/>
+    ...
+    <Link to="/home"/> // 被渲染为 <a href="/admin/home">
+    ...
+  </BrowserRouter>
+2. forceRefresh: 布尔类型，在导航的过程中整个页面是否刷新
+3. getUserConfirmation: 函数类型，当导航需要确认时执行的函数。默认是：window.confirm
+  默认为：
+    const getConfirmation = (message, callback) => {
+      const allowTransition = window.confirm(message)
+      callback(allowTransition)
+    }
+4. keyLength: 数字类型location.key 的长度。默认是 6  
+```
+<HashRouter> URL格式为Hash路由组件  
+<MemoryRouter> 内存路由组件  
+<NativeRouter> Native的路由组件  
+<StaticRouter> 地址不改变的静态路由组件  
+  
+BrowserRouter是用来管理我们的组件的，那么它当然要被放在最顶级的位置，而我们的应用程序的组件就作为它的一个子组件而存在。  
+ <BrowserRouter></BrowserRouter>
 ```
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+//Class App
 render(){
   return (
     <Router>
@@ -123,7 +150,7 @@ render(){
         <child></child>
         <div>
           <Switch>
-            <Route path="/login" component={login} />  //引入的组件login
+            <Route path="/login" component={login} />  //引入的组件login，定义路由login对应的组件
           <Switch>
         </div>
       </div>
@@ -131,5 +158,64 @@ render(){
   )
 }
 ```
+Link/NavLink组件使用时，要包裹在router里  
+属性：  
+1. to  
+2. repalce:true,点击链接后将使用新地址替换掉访问历史记录里面的原地址,false则新增历史记录  
+```
+import {NavLink/Link} from 'react-router-dom'
+function topNav(){ //无状态组件
+  return(
+    <li><NavLink to="/login"></NavLink></li>
+    或
+    // 对象参数
+    <Link to={{
+      pathname: '/query',
+      search: '?key=name',
+      hash: '#hash',
+      state: { fromDashboard: true }
+    }}>查询</Link>  
+  )
+```
+* NavLink是一个特殊版本的Link，可以使用activeClassName来设置Link被选中时被附加的class，使用activeStyle来配置被选中时应用的样式   
 
+Route的三种渲染方式:  
+1. 指定component属性  
+2. Render  
+```
+<Route path="/home" render={() => {
+    console.log('额外的逻辑');
+    return (<div>Home</div>);
+    }/>
+```
+3. children  
+3.1). 传入一个match参数来告诉你这个Route的path和location匹配上没有  
+3.2). 如果path没有匹配上，也可以将它渲染出来。我们可以根据这个match参数来决定在匹配的时候渲染什么，不匹配的时候又渲染什么。
+```
+// 在匹配时，容器的calss是light，<Home />会被渲染
+// 在不匹配时，容器的calss是dark，<About />会被渲染
+<Route path='/home' children={({ match }) => (
+    <div className={match ? 'light' : 'dark'}>
+      {match ? <Home/>:<About>}
+    </div>
+  )}/>
+  //可以获取路由传送的id
+  <Route path='/p/:id' render={(match)=<h3>当前文章ID:{match.params.id}</h3>)} />
+```
+获取 location 对象：  
+在 Route component 中，以 this.props.location 的方式获取  
+在 Route render 中，以 ({ location }) => () 的方式获取  
+在 Route children 中，以 ({ location }) => () 的方式获取  
+在 withRouter 中，以 this.props.location 的方式获取  
 
+Redirect组件： 
+当这个组件被渲染是，location会被重写为Redirect的to指定的新location。它的一个用途是登录重定向，比如在用户点了登录并验证通过之后，将页面跳转到个人主页。`<Redirect to="/new"/>`   
+
+Switch组件：  
+渲染匹配地址(location)的仅仅第一个<Route>或者<Redirect>  
+正常每个匹配到的route对被渲染：如： 
+```
+  <Route path="/about" component={About}/>
+  <Route path="/:user" component={User}/>
+```
+如果使用Switch，当url: /about时, Switch组件将匹配<Route path="/about"/>，并且将停止寻找匹配并渲染<About>。 同样，如果我们处于/michael，<User> 将被渲染。    
