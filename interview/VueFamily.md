@@ -1,7 +1,7 @@
 # 项目中使用vue全家桶  
 首先都是通过单文件引用，然后就全局注册。   
 
-### Vue-router
+### Vue-router  （看笔记哦）
 
 ```
 import VueRouter from 'vue-router'
@@ -192,3 +192,70 @@ devServer: {
     }
 }
 ```
+
+## 知识点  
+### vue-cli如何新增自定义指令？
+1.创建局部指令
+```
+var app = new Vue({
+    el: '#app',
+    data: {    
+    },
+    // 创建指令(可以多个)
+    directives: {
+        // 指令名称
+        dir1: {
+            inserted:function(el,binding,vnode) {
+                // 指令中第一个参数是当前使用指令的DOM
+                console.log(el);
+                console.log(arguments);
+                // 对DOM进行操作
+                el.style.width = '200px';
+                el.style.height = '200px';
+                el.style.background = '#000';
+            }
+        }
+    }
+})
+```
+2.全局指令
+```
+Vue.directive('dir2', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted:function(el,binding,vnode){
+  //只调用一次，指令第一次绑定到元素时调用。
+  bind:function(el,binding,vnode){}
+  componentUpdated:()=>{}
+  unbind:()=>{}
+})
+```
+3.指令的使用
+```
+<div id="app">
+    <div v-dir2:[arg]=200></div>
+    <div v-dir2></div>
+</div>
+```
+
+### keep-alive
+keep-alive是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染。  
+
+### $route和$router的区别
+$route是“路由信息对象”，包括path，params，hash，query，fullPath，matched，name等路由信息参数。  
+$router是“路由实例”对象包括了路由的跳转方法，钩子函数等。
+
+### vue常用的修饰符  
+.prevent: 提交事件不再重载页面；  
+.stop: 阻止单击事件冒泡；  
+.self: 当事件发生在该元素本身而不是子元素的时候会触发；  
+.capture: 事件侦听，事件发生的时候会调用  
+
+
+###  Vue的路由实现：hash模式 和 history模式
+hash模式：在浏览器中符号“#”，#以及#后面的字符称之为hash，用window.location.hash读取；  
+特点：hash虽然在URL中，但不被包括在HTTP请求中；用来指导浏览器动作，对服务端安全无用，hash不会重加载页面。  
+hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。  
+history模式：history采用HTML5的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及popState事件的监听到状态变更。  
+
+### vue实现数据双向绑定主要是  
+采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty（）来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应监听回调。当把一个普通 Javascript 对象传给 Vue 实例来作为它的 data 选项时，Vue 将遍历它的属性，用 Object.defineProperty 将它们转为 getter/setter。用户看不到 getter/setter，但是在内部它们让 Vue 追踪依赖，在属性被访问和修改时通知变化
