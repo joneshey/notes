@@ -86,4 +86,7 @@ rebase  从stach到本地
 
 git checkout — file 可以丢弃工作区的修改
 
+git add ./git commit -m '' /git push all
+
+
 https://www.cnblogs.com/qlqwjy/p/8378851.html
