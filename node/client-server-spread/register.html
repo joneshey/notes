@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>注册</title>
+  </head>
+  <body>
+    <h1>注册页面</h1>
+    <div>
+      <form method="post">
+        <table>
+          <tr><td><input id="name" name="name" /></td></tr>
+          <tr><td><input id="pwd" name="pwd" /></td></tr>
+          <tr><td><input id="age" name="age" /></td></tr>
+          
+        </table>
+      </form>
+      <a id = "register">注册</a>
+      <a href = "./index">返回登陆页面</a>
+    </div>
+    <script src="./ajax.js"></script>
+    <script>
+      var $id = (id)=>{
+        return document.getElementById(id);
+      }
+      var register=$id('register');
+      register.addEventListener('click',()=>{
+          var name = $id('name').value,
+              age = $id('age').value,
+              pwd = $id('pwd').value;
+          if(name==""||pwd==""){
+            alert("登陆名与密码不能为空")
+          }else{
+            Ajax.post('/register',"name="+name+"&pwd="+pwd+"&age="+age,(data)=>{
+              data=JSON.parse(data);
+              if(data.isSuccess){
+                alert("注册成功");
+                document.cookie='name='+name+";password='+pwd;
+                window.location.href='./index';
+              }else{
+                alert("注册失败")
+              }
+            })
+          }
+      })
+    
+      
+    
+    </script>
+  </body>
+</html>
