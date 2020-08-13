@@ -179,3 +179,42 @@ hash.digest(data);//加密
 HMAC多一个密钥传参数=> createHmac('sha256','secretKey')
 AEC对称交易，使用 同一个密钥=> createDecipher('aes192','key')
 ```
+
+### web-socket
+双向通信：浏览器与服务器建立不受限的双向通信的通道  
+传统HTTP协议只能有浏览器发起请求，服务器才响应，无法主动发送数据  
+通过轮询，定时器定时给服务器发送数据来获取服务器消息  
+
+ws连接必须由浏览器发起，请求地址为 ws:// 开头，请求头：Upgrade:websocket / Connection:Upgrade将连接转换为ws连接  
+服务器响应代码为101，表示该连接将被更改为upgrade指定的协议  
+底层通信依旧是SSL/TLS协议，兼容IE10以上
+
+*可能需要添加依赖 ws:1.1.1   
+
+创建服务器实例：
+1. 引入ws模块，引用Server类：ws.Server  
+2. 实例化：
+```
+new WSServer({
+  port:8080
+})
+```
+3. 监听请求(server)  
+请求接入：connection事件  
+```
+ws.on('connection',(res)=>{
+  ws.on('message',(msg){  //收到信息时
+      ws.send(${msg},(err)=>{})  //参数2为发送后的回调函数
+  })
+})
+```
+(client)  
+```
+var ws = new WebSocket('ws://');
+ws.onmessage=(msg)=>{msg.data/msg.orgin}
+ws.send('')
+//ws.on('open',()=>{ws.send('')})
+//ws.on('message',(msg)=>{})
+```  
+
+### EXPRESS框架
