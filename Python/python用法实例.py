@@ -49,6 +49,19 @@ for i in display:
 res.reverse();
 print(res)
 
+# 二分法
+def sortByTwice():
+  if len(arr)<2:
+    return arr
+  else:
+    less = [],more=[],mid=arr[0]
+    for i in range(1,len(arr)):
+      if arr[i] <= mid:
+        less.append(arr[i]);
+      else:
+        more.append(arr[i]);
+    return sum(less)+[mid]+sum(more)
+
 # 游戏规则：将1变为0,0变为1 
 parent = []
 for x in [[1,1,0],[1,0,1],[0,0,0]]:
