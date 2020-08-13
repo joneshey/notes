@@ -30,7 +30,13 @@
           if(name==""||pwd==""){
             alert("登陆名与密码不能为空")
           }else{
-            Ajax.post('/register',"name="+name+"&pwd="+pwd+"&age="+age,(data)=>{
+            var data ={
+              name:name,
+              pwd:pwd,
+              age:age
+            };
+            //"name="+name+"&pwd="+pwd+"&age="+age
+            Ajax.post('/register',data,(data)=>{
               data=JSON.parse(data);
               if(data.isSuccess){
                 alert("注册成功");
