@@ -87,12 +87,12 @@ def isOrgin(str):
 # 
 def twoSum(x):
   if x<0:
-    x=str(x)
-    odd=x[0:1]  //截取
+    x=str(x)  #转换为字符串
+    odd=x[0:1]  #截取负号
     oil=x[1:]
-    l=list(oil)
+    l=list(oil)  #转换数组
     l.reverse()
-    print(odd+"".join(l))//转换为字符
+    print(odd+"".join(l))#转换为字符
   else:
     l=list(str(x))
     l.reverse()
