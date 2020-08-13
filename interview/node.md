@@ -57,3 +57,73 @@ xx0目录必须存在，除非传入第二个参数option.mode:0777,option.recur
 * 获取文件的详细信息：fs.stat('file',(e,stat){}),stat对象包括size,isDeirectory,birthTime,isFile  
 
 ### stream 流  
+所有Stream对象都市EventEmitter实例 
+类型： readable writable duplex transform 
+读取流：   
+通过流读取数据（与buffer对比）：  
+```
+fs.createReadStream('.txt');
+readerStream.setEncoding('chareset');
+readerStream.on()  //监听事件data/end/error/finish，data事件有返参
+```
+写入流：  
+```
+fs.createWriteStream('.txt')
+writeStream.write(data,'charset')
+writeSteam.end()  //标记文件末尾
+writeSteam.on()  //监听事件error/finish
+```
+管道流=>实现文件复制，将读取一个文件的数据写入另一个文件  
+创建写入流，读取流的实例：`readerStream.pipe(writeStream)` 的链式操作   
+
+### 文件服务器
+1. 引入url模块  
+url.parse('url')解析后获取一个url对象  
+属性： protocol协议，hostname主机名，port端口，host主机Ip，etc(hash,search,query,pathname,path,href)  
+2. 解析url参数  
+get请求：  
+```
+var params=url.parse(req.url,true).query; // 查询参数
+res.write()//输出页面,需要设置响应头为text/plain
+res.end()
+```
+post请求：
+```
+//监听接受数据事件
+req.on('data',(chunk)=>{body=chunk})
+req.on('end',()=>{
+  body = queryString.parse(body); //解析参数
+  res.write();//响应头为text/html
+  res.end();
+})
+```
+3. 引入path模块  
+path.resolve('.') 解析目录  
+path.join('当前目录','子目录','文件名') 组合路径  
+创建服务器后，获取path再获取对应文件路径  
+```
+fs.stat(filePath,(err,stats)=>{
+  if(!err && stats.isFile()){
+      //设置响应头
+      //将文件流导向响应
+      fs.createReadStream(filePath).pipe(response)  //自动将读取到的内容写入response
+  }
+})
+```
+
+### HTTP服务器请求（原生）  
+1. 引入http模块  
+操作模块提供的request和response对象  
+request封装http请求，获取请求头信息（method,url）  
+response封装http响应，将响应返回服务器  
+2. 创建server对象  
+```
+http.createServer((req,res)=>{
+  res.writeHead(status,{header})  // status为200或者404的响应码，content-type等信息
+  res.end('hello world')  //使用enf返回数据？
+})
+```
+3. 监听端口server.listen
+```
+http.createServer().listen
+```
