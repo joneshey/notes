@@ -85,7 +85,6 @@ function MyButton(props){
 ```  
 
 
-
 ------jsx事例  
 ```
 //引入React,{Component} from 'react';
@@ -95,7 +94,13 @@ const styles={
 }  //使用时通过 style={styles}
 
 class App extend Component{
-  name = '';
+  const name = '';
+  constructor(props){
+    super(props)
+    this.state={
+        
+    }
+  }
   fnClick(){
   
   }
