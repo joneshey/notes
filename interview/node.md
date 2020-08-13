@@ -127,3 +127,55 @@ http.createServer((req,res)=>{
 ```
 http.createServer().listen
 ```
+
+### 路由
+创建好http服务器请求后，封装回调函数  
+```
+//解析请求路径，获取路径名
+let pathname = url.parse(req.url).pathname;
+switch(pathname){
+  case '/login':
+    showPage('./view/home.html',200);break;
+}
+function showPage(path,status){
+  var content=fs.readFileSync(path)
+  res.writeHead(status,{
+    content-type:
+  })
+  res.write(content);
+  res.end();
+}
+```
+
+### MYSQL  
+1. 引入mysql模块  
+2. 连接数据库  
+```
+var conn = mysql.createConnection({
+  host:
+  user:
+  password:
+  database:
+})
+conn.connect();
+```
+3. 数据库操作    
+不同语句操作，入参个数不一样  
+插入语句：如(Value(?,?,?),[22,11,22])
+```
+conn.query('sql',(err,results,fields)=>{})
+```
+可以使用占位符，防止sql注入  
+4. 断开连接  
+conn.end();
+
+### 加密Crypto  
+crypto模块：提供加密和哈希算法，底层通过c/c++实现，暴露js接口  
+```
+var hash =  crypto.createHash('md5')
+hash.update(data);
+hash.digest(data);//加密
+
+HMAC多一个密钥传参数=> createHmac('sha256','secretKey')
+AEC对称交易，使用 同一个密钥=> createDecipher('aes192','key')
+```
