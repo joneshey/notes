@@ -11,7 +11,6 @@ node 简单运算 变量声明（var,let） 多行表达式（直接回车自动
 每个单独js,以文件名为一个模块：require('./login')，即可读取login里面的成员属性  
 其次，文件中需要module.exports成员方法或者变量  
 引入时应该带相对路径，否则会由内置模块、全局模块、以及当前模块搜索该js,搜索链较长  
-
 原理：使用commonJS函数式编程  
 node.js加载引入的js后，会把代码包装成立即执行函数，形成闭包，避免全局变量冲突和污染（单个文件进行模块化，需要加入commonJS文件）  
 
@@ -41,13 +40,10 @@ getJSONSync("url")   //同步执行
 2. 读取文件   
 异步读取文件：`fs.readFile('xx.file','utf-8',(err,data)=>{})`  
 读取文本的话，data返回string;读取二进制文件，data返回一个buffer对象  
-
 数据类型转换：  
 buffer=>String:  `data.toString('utf-8')`   
 String=>buffer:  `Buffer.from(text,'utf-8')`  
-
 同步读取文件：`readFileSync('.file','utf-8')`  
-
 使用try{}catch(e){}进行异常处理
 
 3. 写文件  
