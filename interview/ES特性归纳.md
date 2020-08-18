@@ -18,34 +18,34 @@ iterator.next()
 
 2. 数组扩展  
 2.1). filter/find数组过滤
-arr.filter((item)=>{return item > 10})  //返回过滤后数组  
-arr.find(function(value, index, arr) {return value > 9;})    
+    arr.filter((item)=>{return item > 10})  //返回过滤后数组  
+    arr.find(function(value, index, arr) {return value > 9;})    
 2.2). every/some 遍历数组  
-是否每个数组都符合条件  
-arr.every((item)=>{return item > 10})  //返回boolean  
+    是否每个数组都符合条件  
+    arr.every((item)=>{return item > 10})  //返回boolean  
 2.3). concat连接数组  
-参数可以为单个值或者数组  
+    参数可以为单个值或者数组  
 2.4). map映射数组
-arr.map((item)=>{return item + 10})  //返回处理后的数组  
+    arr.map((item)=>{return item + 10})  //返回处理后的数组  
 2.5). reduce
-array.reduce(callback,[initialValue]) 方法有两个参数  
-callback函数接收四个参数：  
-preValue ：上一次调用回调返回的值 或者是提供的初始值(回调函数return回来的值)  
-curValue ： 数组中当前被处理的数组项  
-index ：当前数组项在数组中的索引值  
-array 调用reduce() 方法的数组  
+    array.reduce(callback,[initialValue]) 方法有两个参数  
+    callback函数接收四个参数：  
+    preValue ：上一次调用回调返回的值 或者是提供的初始值(回调函数return回来的值)  
+    curValue ： 数组中当前被处理的数组项  
+    index ：当前数组项在数组中的索引值  
+    array 调用reduce() 方法的数组  
 2.5). from()将对象转换为函数  
-Array.from('123') // ['a','b','c'] ,可将类数组的对象Set转换（也就是索引为数字不是字符串）   
+    Array.from('123') // ['a','b','c'] ,可将类数组的对象Set转换（也就是索引为数字不是字符串）   
 2.6). of()将值转换为数组   
-Array.of(3,2)//[3,2]   
+    Array.of(3,2)//[3,2]   
 2.7). fill(str,indexStart,indexEnd)      
-`['a', 'b', 'c'].fill(7, 1, 2)  // ['a', 7, 'c']`   
+    `['a', 'b', 'c'].fill(7, 1, 2)  // ['a', 7, 'c']`   
 2.8). 数组实例的 entries()，keys() 和 values()     
-如果不使用for...of循环，可以手动调用遍历器对象的next方法，进行遍历。  
-```
-let entries = letter.entries();
-console.log(entries.next().value);
-```
+    如果不使用for...of循环，可以手动调用遍历器对象的next方法，进行遍历。  
+    ```
+    let entries = letter.entries();
+    console.log(entries.next().value);
+    ```
 
 * Array.prototype.sort()的默认排序算法必须稳定
 
