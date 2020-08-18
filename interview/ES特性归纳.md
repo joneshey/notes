@@ -49,6 +49,41 @@ iterator.next()
 
 * Array.prototype.sort()的默认排序算法必须稳定
 
+3. 对象扩展  
+属性简写，方法简写  
+```
+let birth = '2000/01/01';
+const Person = {
+  name: '张三',
+  //等同于birth: birth
+  birth,
+};  
+
+//输出对象{x:1,y:10}
+function getPoint() {
+  const x = 1;
+  const y = 10;
+  return {x, y};
+}
+// 等同于
+module.exports = {
+  getItem: getItem,
+  setItem: setItem,
+  clear: clear
+};
+
+function getItem (key) {
+  return key in ms ? ms[key] : null;
+}
+function setItem (key, value) {
+  ms[key] = value;
+}
+function clear () {
+  ms = {};
+}
+module.exports = { getItem, setItem, clear };
+
+```
 ## ES7
 特性：  
 1. 数组原型新增includes方法  
