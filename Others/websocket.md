@@ -1,5 +1,10 @@
 ## WebSocket协议。
 
+服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于服务器推送技术的一种。  
+特征：  
+没有同源限制，客户端可以与任意服务器通信  
+协议标识符是ws（如果加密，则为wss），服务器网址就是 URL  
+
 Request Headers
 ```
 Accept-Encoding: gzip, deflate, br
@@ -45,7 +50,17 @@ WebSocket.CONNECTING: 0
 WebSocket.OPEN: 1  
 WebSocket.CLOSING: 2  
 WebSocket.CLOSED: 3   
- 
+webSocket.bufferedAmount  表示还有多少字节的二进制数据没有发送出去，用来判断发送是否结束   
+
+
+var data = new ArrayBuffer(10000000);
+socket.send(data);
+
+if (socket.bufferedAmount === 0) {
+  // 发送完毕
+} else {
+  // 发送还没结束
+}
 方法：  
 WebSocket.close() 关闭当前连接  
 WebSocket.send(data) 向服务器发送数据  
