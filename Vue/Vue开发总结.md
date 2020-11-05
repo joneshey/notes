@@ -237,7 +237,8 @@ currentTabComponent 可以包括:
  例如：
  ```
  <!-- name将成为prop属性传递到comp -->
- <li :is = 'comp' :name = "name"></li> 
+ <li :is = 'comp' :name = "name" :value.sync = 'value'></li> 
+ //变更变量值$emit('update:value',data)
  ```
  
 如果能够将实例第一次被创建的时候缓存下来，我们可以用一个 <keep-alive> 元素将其动态组件包裹起来。
