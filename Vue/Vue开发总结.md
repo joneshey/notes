@@ -234,13 +234,19 @@ currentTabComponent 可以包括:
  ```
  这个 attribute 可以用于常规 HTML 元素，但这些元素将被视为组件，这意味着所有的 attribute 都会作为 DOM attribute 被绑定。  
  对于像 value 这样的 property，若想让其如预期般工作，你需要使用 .prop 修饰器。   
+ 例如：
+ ```
+ <!-- name将成为prop属性传递到comp -->
+ <li :is = 'comp' :name = "name"></li> 
+ ```
  
 如果能够将实例第一次被创建的时候缓存下来，我们可以用一个 <keep-alive> 元素将其动态组件包裹起来。
-
+```
 <!-- 失活的组件将会被缓存！-->
 <keep-alive>
   <component v-bind:is="currentTabComponent"></component>
 </keep-alive>
+```
 
 ### 继承父组件属性
 由于在父组件中，使用子组件可能需要一些属性值，如：
