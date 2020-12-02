@@ -49,7 +49,7 @@ private List<List<String>> loopValues(String[] values,List<List<String>> chainLi
   }
 }
 //将插入新值，生成新链路
-private List<List<String>> loopValues(String value,List<List<String>> currentChains){
+private List<List<String>> concatChain(String value,List<List<String>> currentChains){
    List<List<String>> infosList = new ArrayList<>();
    if(currentChains.size()!=0){
       for(List<String> chain : currentChains){
