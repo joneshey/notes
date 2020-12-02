@@ -7,7 +7,7 @@
 
 自定义配置文件:
 ```
-//cfg 
+## cfg 
 //数据库ip,host,user,pwd
 //ftp的ip,host,user,pwd
 ftp_server_encoding=ISO8859-1
@@ -60,7 +60,7 @@ Date beginTime = form.parse(time);
 if(beginTime.before(cTime)){}
 ```
 
-2. 连接ftp
+2. 连接ftp  
 1). 创建FTPClient实例，使用ftpClient.connect(host,port)，返回replyCode用来判断是否连接成功  
 2). 登陆ftpClient.login(user,pwd)，指定传输类型setFileType(FTPCilent.BINARY_FILE_TYPE)二进制  
 3). 跳转到指定目录去扫描文件 changeWorkingDirectory(dir);
