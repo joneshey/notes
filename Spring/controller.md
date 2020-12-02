@@ -29,7 +29,7 @@ private final String ENCODING＝'utf-8'
 
 ### 验签以及签名（加密）
 * 国密  
- public String method(String msg, String userId, String privateKey){
+ public String method(String msg, String privateKey){
    byte[] msg.getByte(ENCODING)　　 //编码
    String privateKeyStr = new String(Base64Utils.encode(Util.hexTobyte(pk)))
    byte[] pribyte =Base64Utils.decode(privateKeyStr.getbyte(Encoding))
