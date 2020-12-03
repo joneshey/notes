@@ -16,6 +16,51 @@ iterator.next()
 // { value: undefined, done: true }
 ```
 
+实践事例：   
+线程协作：  
+yield 返回表达式的值（value）和当前执行状态是否结束(done)，而且按顺序执行代码块，即便yield的表达式是异步操作也会等待结果  
+```js
+function *gen(x){
+    var a = 1;
+    yield setTimeout(()=>{
+        console.log(x)
+        a+=x
+    })
+    yield a+2
+    console.log(2);
+}
+var a = gen(1);
+a.next()   //输出1,此时a=2
+a.next()   //返回4（a+2=4）
+a.next()  //输出2
+```
+此处有个特殊情况，当next()传入参数，如果下一步yield 的表达式中有变量的话，变量将会被替代成next输入的值    
+因此可以通过获取上次返回的值传入下一步线程
+```
+function* gen(x){
+  var y =1;
+  y = yield x + 2;
+  return y+1;
+}
+
+var g = gen(1);
+var a = g.next().value; // { value: 3, done: false }
+g.next(a);  //{value:4, done: true}
+```
+与promise处理比较，promist使用的链式then()除了能保证异步函数能够正常返回，防止回调地狱之外，在代码维护方面比较冗余。  
+如
+```
+var p = new Promise();
+//异步resolve,reject()之后返回p 
+//正常异步ajax\axios都会返回一个promise
+p.then((data)=>{}).then(()=>{
+    return axios
+}).then((data)=>{
+})
+```
+
+
+
 2. 数组扩展  
 2.1). filter/find数组过滤
     arr.filter((item)=>{return item > 10})  //返回过滤后数组  
@@ -84,6 +129,73 @@ function clear () {
 module.exports = { getItem, setItem, clear };
 
 ```
+
+4. THUNK函数
+“传名调用”，由于js都是传值调用，而当一个表达式被当成参数传入就是THUNK函数  
+```
+function add(a){
+    console.log(a+1);
+}
+let x = 1;
+add(x+1);
+
+// =>
+
+var thunk = function(){
+    return x+1;
+}
+add(thunk)
+//add(a){return thunk() + 1 }
+```
+
+但js的Thunk函数替换的不是表达式，而是多参数函数，将其替换成单参数的版本，且只接受回调函数作为参数。??????
+封装的Thunk转换器
+```
+// ES6版本
+var Thunk = function(fn) {  
+  return function (...args) {  
+    return function (callback) {  
+      return fn.call(this, ...args, callback);
+    }
+  };
+};
+
+function f(a, cb) {
+  cb(a);
+}
+let ft = Thunk(f);  
+执行等于：
+ft = function(...args){
+    return function(callback){
+        return f.call(this,...args,callback)
+    }
+}
+
+let log = console.log.bind(console);
+
+ft(1)(log) // 1
+执行等于：
+(function(x){
+    return function(log){
+        return f.call(this,x,log)
+    }
+})(1)
+
+//步骤分解：
+ft(1)
+//相当于
+ft(1) = function(callback){
+    return f.call(this,1,callback)
+}
+ft(1)(log)
+f.call(this,1,log);
+=>
+function f(a, cb){
+    consoloe.log(1)
+}
+```
+可简单使用var thunkify = require('thunkify');插件  
+
 ## ES7
 特性：  
 1. 数组原型新增includes方法  
@@ -188,6 +300,7 @@ async function example() {
 }
 
 ```
+
 
 2. 展开运算符和剩余参数  
 与ES6不一样的是，ES9的使用范围不仅仅是数组，对象也可以展开
