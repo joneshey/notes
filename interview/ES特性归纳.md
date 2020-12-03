@@ -59,8 +59,6 @@ p.then((data)=>{}).then(()=>{
 })
 ```
 
-
-
 2. 数组扩展  
 2.1). filter/find数组过滤
     arr.filter((item)=>{return item > 10})  //返回过滤后数组  
@@ -195,6 +193,55 @@ function f(a, cb){
 }
 ```
 可简单使用var thunkify = require('thunkify');插件  
+
+5. Thunk结合Generate函数  
+自动执行：可实现保证前一步执行完，才能执行后一步  
+反复传入next方法的value属性。这使得我们可以用递归来自动完成  
+```
+var thunkify = require('thunkify');
+var readFile = thunkify(fs.readFile);
+
+var gen = function* (){
+  var r1 = yield readFile('/etc/fstab');
+  //console.log(r1.toString());
+  var r2 = yield readFile('/etc/shells');
+  //console.log(r2.toString());
+};
+
+function run(fn) {
+  var gen = fn();
+
+  function next(err, data) {
+    var result = gen.next(data);
+    if (result.done) return;
+    result.value(next);  //这步是如何递归？输出是从gen输出，同下可得，result.value是某个读取文件的返回函数
+  }
+
+  next();
+}
+
+run(gen);  // yield readFile反复调用该方法
+```
+
+6. promist的自动执行  
+```
+function run(gen){
+  var g = gen();
+
+  function next(data){
+    var result = g.next(data);
+    if (result.done) return result.value;
+    result.value.then(function(data){  //result.value是个promise对象，data就是resolve回来的值
+      next(data);
+    });
+  }
+
+  next();
+}
+
+run(gen);
+```
+
 
 ## ES7
 特性：  
