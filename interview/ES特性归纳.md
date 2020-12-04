@@ -254,6 +254,35 @@ arr.includes("item",2)  //返回boolean
 之前原生是使用 Math.pow(x,3);  
 新特性支持 x**3   
 
+3. async函数  
+异步函数：  
+async函数是Generator函数的语法糖  
+```
+//Generator
+var gen = function* (){
+  var f1 = yield readFile('/etc/fstab');
+  var f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+
+//async
+var asyncReadFile = async function (){
+  var f1 = await readFile('/etc/fstab');
+  var f2 = await readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+```
+区别在于:  
+1.内置执行器，async自带执行器，调用时无需调用next(),只需要执行asyncReadFile()  
+2.语义化，async代表异步函数，await表示等待执行结果  
+3.返回类型可以是Promise对象（可以用then方法指定下一步的操作）和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）
+```
+var f = asyncReadFile
+f().then().catch()
+```
+
 ## ES8
 特性：  
 1. 异步函数  
