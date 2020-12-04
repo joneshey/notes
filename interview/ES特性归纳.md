@@ -339,11 +339,11 @@ async function getOrder(arr) {
             list.push(item); 
         }
     }.catch(e=>{})
-    console.log(new Date().getMilliseconds()) //819
+    console.log(new Date().getMilliseconds()) //775
     return list;
 }  //最后增加reject()
 
-console.log(new Date().getMilliseconds())  //810
+console.log(new Date().getMilliseconds())  //758
 getOrder([1,2]).then(function (result) {
   setTimeout(()=>{console.log(result);},1000);
 });
@@ -358,7 +358,7 @@ async function getOrder(arr) {
     try{
         for(let i in arr){
             let itemPromise = ajax(arr[i])
-            let item = await itemPromise  //执行时间806  821
+            let item = await itemPromise  //执行时间909  912
             list.push(item); 
         }
     }.catch(e=>{})
