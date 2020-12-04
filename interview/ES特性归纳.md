@@ -223,7 +223,7 @@ function run(fn) {
 run(gen);  // yield readFile反复调用该方法
 ```
 
-6. promist的自动执行  
+6. promise的自动执行  
 ```
 function run(gen){
   var g = gen();
@@ -281,6 +281,90 @@ var asyncReadFile = async function (){
 ```
 var f = asyncReadFile
 f().then().catch()
+```
+语法：
+await后面只能是表达式、值以及promise  
+1. async函数返回一个Promise对象：async函数内部return语句返回的值，会成为then方法回调函数的参数  
+await命令后面的Promise对象如果变为reject状态，则reject的参数会被catch方法的回调函数接收到   
+```
+//简单类型值
+async function f() {
+  return 'hello world'; //resolve("hello world")   
+}
+f().then(v => console.log(v))
+
+//promise对象
+function setTime(){
+  return new Promise(function(resolve,reject){
+        //resolve(11)
+        setTimeout(()=>{resolve(11)},1000)
+    })
+}
+async function f(){
+  let a = await setTime();
+    return await a+1;
+}
+f().then((v)=>{
+    console.log(v)  //先打印出promise对象为pending，再打印12
+})
+```
+只要一个await语句后面的Promise变为reject，那么整个async函数都会中断执行。  
+为了避免这个问题，可以将第一个await放在try...catch结构里面，这样第二个await就会执行。  
+```
+async function f() {
+  try {
+    await Promise.reject('出错了');  
+  } catch(e) {
+  }
+  return await Promise.resolve('hello world');
+}
+```
+2. async函数返回的Promise对象，必须等到内部所有await命令的Promise对象执行完，才会发生状态改变。  
+也就是说，只有async函数内部的异步操作执行完，才会执行then方法指定的回调函数。  
+
+//类似算法题，将一个数组的元素逐个请求接口，并按顺序输出
+```js
+function ajax(val){
+ return new Promise((resolve,reject)=>{
+    resolve(val+1);
+ })
+}
+
+async function getOrder(arr) {
+    let list = [];  
+    //await Promise.reject('出错了').catch(e => console.log(e));
+    try{
+        for(let i in arr){
+            let item = await ajax(arr[i])
+            list.push(item); 
+        }
+    }.catch(e=>{})
+    console.log(new Date().getMilliseconds()) //819
+    return list;
+}  //最后增加reject()
+
+console.log(new Date().getMilliseconds())  //810
+getOrder([1,2]).then(function (result) {
+  setTimeout(()=>{console.log(result);},1000);
+});
+
+```
+以上的写法不足之处：继发关系，会比较耗时，会等待item执行完才去触发下一个。  
+因此优化getOrder方法：
+```
+async function getOrder(arr) {
+    let list = [];  
+    //await Promise.reject('出错了').catch(e => console.log(e));
+    try{
+        for(let i in arr){
+            let itemPromise = ajax(arr[i])
+            let item = await itemPromise  //执行时间806  821
+            list.push(item); 
+        }
+    }.catch(e=>{})
+    return list;
+}  //最后增加reject()
+
 ```
 
 ## ES8
