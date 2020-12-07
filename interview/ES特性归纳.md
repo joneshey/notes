@@ -242,6 +242,85 @@ function run(gen){
 run(gen);
 ```
 
+7. proxy代理
+相当于重写对象内部属性的get/set方法  
+```
+//生成 Proxy 实例。
+var proxy = new Proxy(target, handler);
+//target参数表示所要拦截的目标对象，handler参数也是一个对象，用来定制拦截行为。
+
+var proxy = new Proxy({}, {
+  get: function(target, propKey) {
+    if(propKey == 'greet')
+    return "hello world";
+  }
+});
+```
+Proxy 对象的所有用法，都是上面这种形式，不同的只是handler参数的写法。    
+
+要使得Proxy起作用，必须针对Proxy实例（上例是proxy对象）进行操作，而不是针对目标对象（上例是空对象）进行操作。    
+如果handler没有设置任何拦截，那就等同于直接通向原对象。      
+```
+var target = {};
+var handler = {};
+var proxy = new Proxy(target, handler);
+proxy.a = 'b';
+target.a // "b"
+
+//或者
+let target = Object.create(proxy);
+target.a // "b"
+```
+
+proxy的属性配置  
+get(target, propKey, receiver)   
+
+set(target, propKey, value, receiver)  拦截对象属性的设置，proxy.foo = v或proxy['foo'] = v，返回一个布尔值   
+
+has(target, propKey) 拦截propKey in proxy的操作，以及对象的hasOwnProperty方法   
+deleteProperty(target, propKey)  
+
+ownKeys(target) 该方法返回对象所有自身的属性   
+
+defineProperty(target, propKey, propDesc) 拦截Object.defineProperty(proxy, propKey, propDesc）、Object.defineProperties(proxy, propDescs)  
+
+实例：
+```
+var person = {
+  name: "张三"
+};
+var proxy = new Proxy(person, {
+  get: function(target, property) {
+    if (property in target) {  //property key
+      return target[property];
+    } else {
+      return ""
+    }
+  }
+});
+var obj2 = Object.create(proxy);  //继承proxy
+```
+
+8. module模块  
+ES6 模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。  
+CommonJS 和 AMD 模块，都只能在运行时确定这些东西。  
+```
+// CommonJS模块
+let { stat, exists, readFile } = require('fs');
+//这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
+
+// ES6模块
+import { stat, exists, readFile } from 'fs';
+//这种加载称为“编译时加载”或者静态加载
+```
+为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到export default命令，为模块指定默认输出。其他模块加载该模块时，import命令可以为该匿名函数指定任意名字。  
+```
+// export-default.js
+export default function () {
+  console.log('default');
+}
+```
+
 
 ## ES7
 特性：  
