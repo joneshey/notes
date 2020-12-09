@@ -16,6 +16,12 @@ const router = new VueRouter({
 //js
 router.push({ name: 'user', params: { userId: 123 }})
 ```
+添加路由：router.addRoutes(routes)// 某模块的路由
+```
+Vue.use(Router)
+new Router({})
+```
+
 命名视图：
 ```
 routes: [
