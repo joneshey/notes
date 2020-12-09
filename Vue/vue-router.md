@@ -9,6 +9,12 @@ beforeRouteEnter (to,from,next) {
 　　//无权访问“this”组件实例，
 
 　　//因为调用这个守卫时还没有创建！
-   //需要路由更新就要调用next
+   //需要路由更新就要调用next  
+    next(vm => {
+    　if(from.meta.title == '报名页面'） {
+　　　　　//判断是否从报名页面过来，如果是显示弹窗
+　　　　　vm.isShow = true
+　　　}
+  })
 }
 ```
