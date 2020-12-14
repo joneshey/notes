@@ -617,7 +617,12 @@ String.raw`\u{54}`  // "\u{54}"
 var name = user?.info?.name;  
 
 2. 空值合并运算符
-使用空值合并运算符??，也就是如果为空值、undefined、0，则不会当做false处理  
+使用空值合并运算符??，也就是如果为空值、undefined、0，则不会当做false处理    
+```
+var a = 0;
+a??'hehe'  //0
+```
+||无法区分false、0、空字符串 "" 和 null/undefined。它们都一样 ——假值（falsy values）。如果其中任何一个是||的第一个参数，那么我们将得到第二个参数作为结果。
 
 3. 按需加载  
 可以在函数中使用import()，减少全局引用资源，导致渲染性能下降  
