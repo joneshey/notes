@@ -90,3 +90,6 @@ git add ./git commit -m '' /git push all
 
 
 https://www.cnblogs.com/qlqwjy/p/8378851.html
+
+### 回滚后出现的远程仓库比仓库新，不能提交  
+在本地回滚后，远程上面依然是之前的版本，用git push -f 将本地库强制推送到远程，这时远程库也已经回滚到之前的提交了。
