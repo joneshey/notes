@@ -104,3 +104,9 @@ import { Button } from 'element-ui';
 var _button = require('element-ui/lib/button');
 require('element-ui/lib/theme-chalk/button');
 ```
+
+```
+Object.keys(components).forEach(key => {
+    vue.component(key, components[key]);
+  });
+```
