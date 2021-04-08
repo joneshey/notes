@@ -83,3 +83,24 @@ import 'ant-design-vue/lib/button/style'; // 或者 ant-design-vue/lib/button/st
 如果你使用了 babel，那么可以使用 babel-plugin-import 来进行按需加载，加入这个插件后。你可以仍然这么写：  
 `import { Button } from 'ant-design-vue';`
 插件会帮你转换成 `ant-design-vue/lib/xxx` 的写法。
+
+usage:
+```
+// .babelrc
+"plugins": [
+  ["import", { "libraryName": "antd", "libraryDirectory": "lib"}, "antd"],
+  ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib"}, "antd-mobile"]
+]
+//或
+{
+  "libraryName": "element-ui",
+  "styleLibraryDirectory": "lib/theme-chalk",
+}
+
+import { Button } from 'element-ui';
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+var _button = require('element-ui/lib/button');
+require('element-ui/lib/theme-chalk/button');
+```
