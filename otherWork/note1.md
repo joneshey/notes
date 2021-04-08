@@ -15,7 +15,6 @@ npm config set cache "D:\Develop\nodejs\node_cache"
    3.2). npm i => npm run build
    3.3). 从 chrome 修改 maniest.json 文件，然后从浏览器引入插件
 
-4.
 
 - 开发须知
 
@@ -72,3 +71,15 @@ git+ssh://user@hostname:project.git
 git+ssh://user@hostname/project.git
 git+http://user@hostname/project/blah.git
 git+https://user@hostname/project/blah.git
+
+
+组件引入插件：  
+使用了 import { Button } from 'ant-design-vue'; 的写法引入了 antd 下所有的模块，这会影响应用的网络性能  
+可以通过以下的写法来按需加载组件。   
+```
+import Button from 'ant-design-vue/lib/button';  
+import 'ant-design-vue/lib/button/style'; // 或者 ant-design-vue/lib/button/style/css 加载 css 文件  
+```
+如果你使用了 babel，那么可以使用 babel-plugin-import 来进行按需加载，加入这个插件后。你可以仍然这么写：  
+`import { Button } from 'ant-design-vue';`
+插件会帮你转换成 `ant-design-vue/lib/xxx` 的写法。
