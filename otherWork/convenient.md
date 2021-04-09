@@ -80,28 +80,50 @@ npm i webpack webpack-cli clean-webpack-plugin html-webpack-plugin html-loader w
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-      index: './index.js',  
-      rewards: './src/rewards/index.js',
-      tasks: './src/tasks/index.js',
+      '.': './index.js',  
+      'rewards': './src/rewards/index.js',
+      'tasks': './src/tasks/index.js',
   },
   output: {
       path: path.resolve(__dirname,'./dist'),
       filename: '[name]/index-[hash].js'
   },
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [" style-loader", "css-loader"],
-      },
-    ],
+        use: [
+          {
+            loader:MiniCssExtractPlugin.loader
+          },
+          {
+            loader:'css-loader',
+            options:{
+              // modules:true  //开启css-loader模块化
+            }
+          },
+          {
+            loader:'postcss-loader'
+          },
+        ]
+      }
+    ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       chunks:['rewards'],
+      inject:'body',
       filename: './rewards/index.html',
       template: "./src/rewards/index.html",
       minify: {                    //html压缩
@@ -111,6 +133,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       chunks:['tasks'],
+      inject:'body',
       filename: './tasks/index.html',
       template: "./src/tasks/index.html",
       minify: {                    //html压缩
@@ -120,6 +143,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       chunks:['index'],
+      inject:'body',
       filename: './index.html',
       template: "./index.html",
       minify: {                    //html压缩
@@ -127,10 +151,19 @@ module.exports = {
         collapseWhitespace: true //移除空格
       }
     }),
-    /* new CopyWebpackPlugin({
-      patterns: [
-      ],
-    }) */
-  ],
-};
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',//打包后放到css目录下，名字与打包之前一样
+      //chunkFilename: '[id].css',
+    }),
+    new CopyWebpackPlugin({
+      patterns:[
+        { 
+          context: './src/assets',
+          from: '**/*',
+          to: './assets'
+        },
+      ]
+    })
+  ]
+}
 ```
